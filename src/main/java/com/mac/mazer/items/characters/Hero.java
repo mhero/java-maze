@@ -56,11 +56,16 @@ public class Hero extends Character {
 		updateDirection(this.direction.right);
 	}
 
-	public void moveForward() {
+	public void moveForward(Coordinates mazeCoordinates) {
 		Coordinates coordinates = this.items.get(this.items.size() - 1);
 		Integer x = coordinates.getX() + this.direction.x;
 		Integer y = coordinates.getY() + this.direction.y;
-		this.items.add(new Coordinates(x, y));
+
+		if (x < 0 || y < 0 || x > mazeCoordinates.getX() - 1 || y > mazeCoordinates.getY() - 1) {
+			System.out.println("Invalid move");
+		} else {
+			this.items.add(new Coordinates(x, y));
+		}
 	}
 
 	private void updateDirection(Direction direction) {

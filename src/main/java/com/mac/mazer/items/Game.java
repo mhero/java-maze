@@ -32,6 +32,6 @@ public class Game {
 	}
 
 	public void moveForward() {
-		hero.moveForward();
+		hero.moveForward(this.mazeGenerator.getCoordinates());
 	}
 }
