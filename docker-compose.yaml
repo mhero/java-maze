@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2
+    stdin_open: true
+    tty: true
+    command: bash -c "mvn clean install &&  java -jar /app/target/mazer-jar-with-dependencies.jar"
