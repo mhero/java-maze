@@ -7,6 +7,7 @@ import com.mac.mazer.items.Coordinates;
 public abstract class Character {
 	protected List<Coordinates> positions;
 	protected String logo;
+	protected Integer power;
 
 	public boolean isCharacterHere(Coordinates coordinates) {
 		return positions.contains(coordinates);

@@ -3,6 +3,7 @@ package com.mac.mazer.items;
 import com.mac.mazer.items.characters.Character;
 import com.mac.mazer.items.characters.Enemies;
 import com.mac.mazer.items.characters.Hero;
+import com.mac.util.Util;
 
 public class Game {
 
@@ -14,12 +15,13 @@ public class Game {
 	public Game() {
 		coordinates = new Coordinates(10, 10);
 		mazeGenerator = new MazeGenerator(coordinates);
-		enemies = new Enemies(4, coordinates);
-		hero = new Hero(1, coordinates);
+		enemies = new Enemies(4, coordinates, 100);
+		hero = new Hero(coordinates, 100);
 	}
 
 	public void display() {
-		Character[] characters = { enemies, hero };
+		Character[] heroes = { hero };
+		Character[] characters = Util.concatenate(enemies.getEnemies(), heroes);
 		mazeGenerator.display(characters);
 	}
 

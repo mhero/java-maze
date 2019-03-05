@@ -10,38 +10,29 @@ import com.mac.mazer.items.characters.Enemies;
 public class EnemiesTest {
 	private Enemies enemies;
 	private Integer amount;
+	private Integer power;
 	private Coordinates coordinates;
 
 	@Before
 	public void init() {
 		amount = 5;
 		coordinates = new Coordinates(10, 10);
+		power = 100;
 	}
 
 	@Test
 	public void testSuccessCreate() {
-		enemies = new Enemies(amount, coordinates);
-		Boolean success = (enemies.getItems().size() == amount);
+		enemies = new Enemies(amount, coordinates, power);
+		Boolean success = (enemies.getEnemies().length == amount);
 		Assert.assertTrue(success);
 	}
 
 	@Test
 	public void testSuccessBounds() {
-		enemies = new Enemies(amount, coordinates);
+		enemies = new Enemies(amount, coordinates, power);
 
-		for (Coordinates enemy : enemies.getItems()) {
+		for (Coordinates enemy : enemies.getCoordinates()) {
 			Boolean success = (enemy.getX() < coordinates.getX()) && (enemy.getY() < coordinates.getY());
-			Assert.assertTrue(success);
-		}
-
-	}
-
-	@Test
-	public void testSuccessIsEnemy() {
-		enemies = new Enemies(amount, coordinates);
-
-		for (Coordinates enemy : enemies.getItems()) {
-			Boolean success = enemies.isCharacterHere(enemy);
 			Assert.assertTrue(success);
 		}
 

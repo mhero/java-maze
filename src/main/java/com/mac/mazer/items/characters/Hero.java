@@ -41,9 +41,10 @@ public class Hero extends Character {
 
 	}
 
-	public Hero(int amount, Coordinates coordinates) {
+	public Hero(Coordinates coordinates, Integer power) {
 		this.positions = new ArrayList<>();
 		this.positions.add(new Coordinates(0, 0));
+		this.power = power;
 		updateDirection(Direction.S);
 
 	}
