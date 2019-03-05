@@ -21,7 +21,7 @@ public class EnemiesTest {
 	@Test
 	public void testSuccessCreate() {
 		enemies = new Enemies(amount, coordinates);
-		Boolean success = (enemies.getEnemies().size() == amount);
+		Boolean success = (enemies.getItems().size() == amount);
 		Assert.assertTrue(success);
 	}
 
@@ -29,7 +29,7 @@ public class EnemiesTest {
 	public void testSuccessBounds() {
 		enemies = new Enemies(amount, coordinates);
 
-		for (Coordinates enemy : enemies.getEnemies()) {
+		for (Coordinates enemy : enemies.getItems()) {
 			Boolean success = (enemy.getX() < coordinates.getX()) && (enemy.getY() < coordinates.getY());
 			Assert.assertTrue(success);
 		}
@@ -40,7 +40,7 @@ public class EnemiesTest {
 	public void testSuccessIsEnemy() {
 		enemies = new Enemies(amount, coordinates);
 
-		for (Coordinates enemy : enemies.getEnemies()) {
+		for (Coordinates enemy : enemies.getItems()) {
 			Boolean success = enemies.isCharacterHere(enemy);
 			Assert.assertTrue(success);
 		}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mac.mazer.items.Coordinates;
 
-public class Character {
+public abstract class Character {
 	protected List<Coordinates> items;
 	protected String logo;
 
@@ -14,5 +14,9 @@ public class Character {
 
 	public String getLogo() {
 		return logo;
+	}
+
+	public List<Coordinates> getItems() {
+		return items;
 	}
 }
