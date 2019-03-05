@@ -8,13 +8,13 @@ import com.mac.util.Util;
 public class Game {
 
 	private final Coordinates coordinates;
-	private MazeGenerator maze;
+	private Maze maze;
 	private Enemies enemies;
 	private Hero hero;
 
 	public Game() {
 		coordinates = new Coordinates(10, 10);
-		maze = new MazeGenerator(coordinates);
+		maze = new Maze(coordinates);
 		enemies = new Enemies(4, coordinates, 100);
 		hero = new Hero(coordinates, 100);
 	}

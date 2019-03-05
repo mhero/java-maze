@@ -3,6 +3,7 @@ package com.mac.mazer.items.characters;
 import java.util.ArrayList;
 
 import com.mac.mazer.items.Coordinates;
+import com.mac.mazer.items.Maze;
 import com.mac.mazer.items.MazeGenerator;
 
 public class Hero extends Character {
@@ -67,7 +68,7 @@ public class Hero extends Character {
 		updateDirection(this.direction.right);
 	}
 
-	public Enemies moveForward(MazeGenerator maze, Enemies enemies) {
+	public Enemies moveForward(Maze maze, Enemies enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
 		Integer y = heroCoordinates.getY() + this.direction.yForward;
@@ -75,14 +76,14 @@ public class Hero extends Character {
 
 	}
 
-	public Enemies moveBackwards(MazeGenerator maze, Enemies enemies) {
+	public Enemies moveBackwards(Maze maze, Enemies enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xBackwards;
 		Integer y = heroCoordinates.getY() + this.direction.yBackwards;
 		return moveAndUpdateEnemies(x, y, maze, enemies);
 	}
 
-	private Enemies moveAndUpdateEnemies(Integer x, Integer y, MazeGenerator maze, Enemies enemies) {
+	private Enemies moveAndUpdateEnemies(Integer x, Integer y, Maze maze, Enemies enemies) {
 		if (moveIfValid(x, y, maze)) {
 			Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 			return checkEnemiesColision(enemies, heroCoordinates);
@@ -96,7 +97,7 @@ public class Hero extends Character {
 		return enemies;
 	}
 
-	private Boolean moveIfValid(Integer x, Integer y, MazeGenerator maze) {
+	private Boolean moveIfValid(Integer x, Integer y, Maze maze) {
 		if (maze.outsideMazeLimits(x, y) || hasFloor(x, y, maze)) {
 			System.out.println("Invalid move");
 			return false;
@@ -106,7 +107,7 @@ public class Hero extends Character {
 		}
 	}
 
-	private Boolean hasFloor(Integer x, Integer y, MazeGenerator maze) {
+	private Boolean hasFloor(Integer x, Integer y, Maze maze) {
 		return (this.direction.equals(Direction.S) && maze.hasFloor(x, y))
 				|| (this.direction.equals(Direction.N) && maze.hasFloor(x - 1, y));
 	}
