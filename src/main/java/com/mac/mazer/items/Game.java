@@ -34,10 +34,10 @@ public class Game {
 	}
 
 	public void moveForward() {
-		hero.moveForward(this.mazeGenerator.getCoordinates());
+		enemies = hero.moveForward(this.mazeGenerator.getCoordinates(), this.enemies);
 	}
 
 	public void moveBackwards() {
-		hero.moveBackwards(this.mazeGenerator.getCoordinates());
+		enemies = hero.moveBackwards(this.mazeGenerator.getCoordinates(), this.enemies);
 	}
 }

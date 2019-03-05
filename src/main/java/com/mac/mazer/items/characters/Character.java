@@ -17,7 +17,7 @@ public abstract class Character {
 		return logo;
 	}
 
-	public List<Coordinates> getItems() {
+	public List<Coordinates> getPositions() {
 		return positions;
 	}
 }

@@ -78,7 +78,6 @@ public class Menu {
 			subMenuGame.putAction("step backwards", () -> {
 				game.moveBackwards();
 				game.display();
-				
 				activateMenu(subMenuGame);
 			});
 			subMenuGame.putAction("turn left", () -> {

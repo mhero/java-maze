@@ -66,25 +66,42 @@ public class Hero extends Character {
 		updateDirection(this.direction.right);
 	}
 
-	public void moveForward(Coordinates mazeCoordinates) {
-		Coordinates coordinates = this.positions.get(this.positions.size() - 1);
-		Integer x = coordinates.getX() + this.direction.xForward;
-		Integer y = coordinates.getY() + this.direction.yForward;
-		moveIfValid(x, y, mazeCoordinates);
+	public Enemies moveForward(Coordinates mazeCoordinates, Enemies enemies) {
+		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+		Integer x = heroCoordinates.getX() + this.direction.xForward;
+		Integer y = heroCoordinates.getY() + this.direction.yForward;
+		return moveAndUpdateEnemies(x, y, mazeCoordinates, enemies);
+
 	}
 
-	public void moveBackwards(Coordinates mazeCoordinates) {
-		Coordinates coordinates = this.positions.get(this.positions.size() - 1);
-		Integer x = coordinates.getX() + this.direction.xBackwards;
-		Integer y = coordinates.getY() + this.direction.yBackwards;
-		moveIfValid(x, y, mazeCoordinates);
+	public Enemies moveBackwards(Coordinates mazeCoordinates, Enemies enemies) {
+		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+		Integer x = heroCoordinates.getX() + this.direction.xBackwards;
+		Integer y = heroCoordinates.getY() + this.direction.yBackwards;
+		return moveAndUpdateEnemies(x, y, mazeCoordinates, enemies);
 	}
 
-	private void moveIfValid(Integer x, Integer y, Coordinates mazeCoordinates) {
+	private Enemies moveAndUpdateEnemies(Integer x, Integer y, Coordinates mazeCoordinates, Enemies enemies) {
+		if (moveIfValid(x, y, mazeCoordinates)) {
+			Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+			return checkEnemiesColision(enemies, heroCoordinates);
+		} else {
+			return enemies;
+		}
+	}
+
+	private Enemies checkEnemiesColision(Enemies enemies, Coordinates heroCoordinates) {
+		enemies.removeEnemyAt(heroCoordinates);
+		return enemies;
+	}
+
+	private Boolean moveIfValid(Integer x, Integer y, Coordinates mazeCoordinates) {
 		if (x < 0 || y < 0 || x > mazeCoordinates.getX() - 1 || y > mazeCoordinates.getY() - 1) {
 			System.out.println("Invalid move");
+			return false;
 		} else {
 			this.positions.add(new Coordinates(x, y));
+			return true;
 		}
 	}
 

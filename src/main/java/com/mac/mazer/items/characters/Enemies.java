@@ -9,16 +9,14 @@ import com.mac.mazer.items.Coordinates;
 public class Enemies {
 
 	private List<Enemy> enemies;
-	private List<Coordinates> coordinates;
 
 	public Enemies(Integer amount, Coordinates coordinates, Integer maxPower) {
 		this.enemies = new ArrayList<>();
-		this.coordinates = new ArrayList<>();
+
 		for (int i = 0; i < amount; i++) {
 			int x = new Random().nextInt(coordinates.getX());
 			int y = new Random().nextInt(coordinates.getY());
 			int power = new Random().nextInt(maxPower);
-			this.coordinates.add(new Coordinates(x, y));
 			this.enemies.add(new Enemy(new Coordinates(x, y), power));
 		}
 	}
@@ -32,7 +30,21 @@ public class Enemies {
 	}
 
 	public List<Coordinates> getCoordinates() {
+		List<Coordinates> coordinates = new ArrayList<>();
+		for (Enemy enemy : enemies) {
+			coordinates.addAll(enemy.getPositions());
+		}
 		return coordinates;
+	}
+
+	public void removeEnemyAt(Coordinates coordinates) {
+		List<Enemy> enemies = new ArrayList<>();
+		for (Enemy enemy : this.enemies) {
+			if (!enemy.isCharacterHere(coordinates)) {
+				enemies.add(enemy);
+			}
+		}
+		this.enemies = enemies;
 	}
 
 }
