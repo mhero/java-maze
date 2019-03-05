@@ -5,11 +5,11 @@ import java.util.List;
 import com.mac.mazer.items.Coordinates;
 
 public abstract class Character {
-	protected List<Coordinates> items;
+	protected List<Coordinates> positions;
 	protected String logo;
 
 	public boolean isCharacterHere(Coordinates coordinates) {
-		return items.contains(coordinates);
+		return positions.contains(coordinates);
 	}
 
 	public String getLogo() {
@@ -17,6 +17,6 @@ public abstract class Character {
 	}
 
 	public List<Coordinates> getItems() {
-		return items;
+		return positions;
 	}
 }

@@ -42,15 +42,15 @@ public class Hero extends Character {
 	}
 
 	public Hero(int amount, Coordinates coordinates) {
-		this.items = new ArrayList<>();
-		this.items.add(new Coordinates(0, 0));
+		this.positions = new ArrayList<>();
+		this.positions.add(new Coordinates(0, 0));
 		updateDirection(Direction.S);
 
 	}
 
 	@Override
 	public boolean isCharacterHere(Coordinates coordinates) {
-		return this.items.get(this.items.size() - 1).equals(coordinates);
+		return this.positions.get(this.positions.size() - 1).equals(coordinates);
 	}
 
 	public Direction getDirection() {
@@ -66,14 +66,14 @@ public class Hero extends Character {
 	}
 
 	public void moveForward(Coordinates mazeCoordinates) {
-		Coordinates coordinates = this.items.get(this.items.size() - 1);
+		Coordinates coordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = coordinates.getX() + this.direction.xForward;
 		Integer y = coordinates.getY() + this.direction.yForward;
 		moveIfValid(x, y, mazeCoordinates);
 	}
 
 	public void moveBackwards(Coordinates mazeCoordinates) {
-		Coordinates coordinates = this.items.get(this.items.size() - 1);
+		Coordinates coordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = coordinates.getX() + this.direction.xBackwards;
 		Integer y = coordinates.getY() + this.direction.yBackwards;
 		moveIfValid(x, y, mazeCoordinates);
@@ -83,7 +83,7 @@ public class Hero extends Character {
 		if (x < 0 || y < 0 || x > mazeCoordinates.getX() - 1 || y > mazeCoordinates.getY() - 1) {
 			System.out.println("Invalid move");
 		} else {
-			this.items.add(new Coordinates(x, y));
+			this.positions.add(new Coordinates(x, y));
 		}
 	}
 
