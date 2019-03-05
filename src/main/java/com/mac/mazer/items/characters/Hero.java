@@ -97,14 +97,18 @@ public class Hero extends Character {
 	}
 
 	private Boolean moveIfValid(Integer x, Integer y, MazeGenerator maze) {
-
-		if (x < 0 || y < 0 || x > maze.getCoordinates().getX() - 1 || y > maze.getCoordinates().getY() - 1) {
+		if (maze.outsideMazeLimits(x, y) || hasFloor(x, y, maze)) {
 			System.out.println("Invalid move");
 			return false;
 		} else {
 			this.positions.add(new Coordinates(x, y));
 			return true;
 		}
+	}
+
+	private Boolean hasFloor(Integer x, Integer y, MazeGenerator maze) {
+		return (this.direction.equals(Direction.S) && maze.hasFloor(x, y))
+				|| (this.direction.equals(Direction.N) && maze.hasFloor(x - 1, y));
 	}
 
 	private void updateDirection(Direction direction) {

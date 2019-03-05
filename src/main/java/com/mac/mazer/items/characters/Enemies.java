@@ -14,8 +14,8 @@ public class Enemies {
 		this.enemies = new ArrayList<>();
 
 		for (int i = 0; i < amount; i++) {
-			int x = new Random().nextInt(coordinates.getX());
-			int y = new Random().nextInt(coordinates.getY());
+			int x = new Random().nextInt(coordinates.getX()) + 1;
+			int y = new Random().nextInt(coordinates.getY()) + 1;
 			int power = new Random().nextInt(maxPower);
 			this.enemies.add(new Enemy(new Coordinates(x, y), power));
 		}

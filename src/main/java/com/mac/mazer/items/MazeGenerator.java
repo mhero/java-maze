@@ -66,6 +66,14 @@ public class MazeGenerator {
 		}
 	};
 
+	public Boolean outsideMazeLimits(Integer x, Integer y) {
+		return x < 0 || y < 0 || x > getCoordinates().getX() - 1 || y > getCoordinates().getY() - 1;
+	}
+
+	public Boolean hasFloor(Integer x, Integer y) {
+		return (maze[x][y] & 1) == 0;
+	}
+
 	public void display(Character... characters) {
 
 		int x = coordinates.getX();
