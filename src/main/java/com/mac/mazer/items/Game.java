@@ -8,13 +8,13 @@ import com.mac.util.Util;
 public class Game {
 
 	private final Coordinates coordinates;
-	private MazeGenerator mazeGenerator;
+	private MazeGenerator maze;
 	private Enemies enemies;
 	private Hero hero;
 
 	public Game() {
 		coordinates = new Coordinates(10, 10);
-		mazeGenerator = new MazeGenerator(coordinates);
+		maze = new MazeGenerator(coordinates);
 		enemies = new Enemies(4, coordinates, 100);
 		hero = new Hero(coordinates, 100);
 	}
@@ -22,7 +22,7 @@ public class Game {
 	public void display() {
 		Character[] heroes = { hero };
 		Character[] characters = Util.concatenate(enemies.getEnemies(), heroes);
-		mazeGenerator.display(characters);
+		maze.display(characters);
 	}
 
 	public void turnLeft() {
@@ -34,10 +34,10 @@ public class Game {
 	}
 
 	public void moveForward() {
-		enemies = hero.moveForward(this.mazeGenerator.getCoordinates(), this.enemies);
+		enemies = hero.moveForward(this.maze, this.enemies);
 	}
 
 	public void moveBackwards() {
-		enemies = hero.moveBackwards(this.mazeGenerator.getCoordinates(), this.enemies);
+		enemies = hero.moveBackwards(this.maze, this.enemies);
 	}
 }

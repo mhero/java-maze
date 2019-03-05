@@ -3,6 +3,7 @@ package com.mac.mazer.items.characters;
 import java.util.ArrayList;
 
 import com.mac.mazer.items.Coordinates;
+import com.mac.mazer.items.MazeGenerator;
 
 public class Hero extends Character {
 
@@ -66,23 +67,23 @@ public class Hero extends Character {
 		updateDirection(this.direction.right);
 	}
 
-	public Enemies moveForward(Coordinates mazeCoordinates, Enemies enemies) {
+	public Enemies moveForward(MazeGenerator maze, Enemies enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
 		Integer y = heroCoordinates.getY() + this.direction.yForward;
-		return moveAndUpdateEnemies(x, y, mazeCoordinates, enemies);
+		return moveAndUpdateEnemies(x, y, maze, enemies);
 
 	}
 
-	public Enemies moveBackwards(Coordinates mazeCoordinates, Enemies enemies) {
+	public Enemies moveBackwards(MazeGenerator maze, Enemies enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xBackwards;
 		Integer y = heroCoordinates.getY() + this.direction.yBackwards;
-		return moveAndUpdateEnemies(x, y, mazeCoordinates, enemies);
+		return moveAndUpdateEnemies(x, y, maze, enemies);
 	}
 
-	private Enemies moveAndUpdateEnemies(Integer x, Integer y, Coordinates mazeCoordinates, Enemies enemies) {
-		if (moveIfValid(x, y, mazeCoordinates)) {
+	private Enemies moveAndUpdateEnemies(Integer x, Integer y, MazeGenerator maze, Enemies enemies) {
+		if (moveIfValid(x, y, maze)) {
 			Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 			return checkEnemiesColision(enemies, heroCoordinates);
 		} else {
@@ -95,8 +96,9 @@ public class Hero extends Character {
 		return enemies;
 	}
 
-	private Boolean moveIfValid(Integer x, Integer y, Coordinates mazeCoordinates) {
-		if (x < 0 || y < 0 || x > mazeCoordinates.getX() - 1 || y > mazeCoordinates.getY() - 1) {
+	private Boolean moveIfValid(Integer x, Integer y, MazeGenerator maze) {
+
+		if (x < 0 || y < 0 || x > maze.getCoordinates().getX() - 1 || y > maze.getCoordinates().getY() - 1) {
 			System.out.println("Invalid move");
 			return false;
 		} else {
