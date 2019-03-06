@@ -1,4 +1,4 @@
-package com.mac.roomba;
+package com.mac.mazer;
 
 import org.junit.Assert;
 import org.junit.Before;
