@@ -19,15 +19,6 @@ public class Store {
 			mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 			mapper.writeValue(new File("game.json"), game);
 
-			/*
-			 * String jsonInString = mapper.writeValueAsString(game);
-			 * System.out.println(jsonInString);
-			 * 
-			 * // Convert object to JSON string and pretty print jsonInString =
-			 * mapper.writerWithDefaultPrettyPrinter().writeValueAsString(game);
-			 * System.out.println(jsonInString);
-			 */
-
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

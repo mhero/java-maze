@@ -25,11 +25,15 @@ public class Enemies {
 		}
 	}
 
-	public Character[] getEnemies() {
+	public Character[] getEnemiesArray() {
 		Character[] enemies = new Character[this.enemies.size()];
 		for (int i = 0; i < this.enemies.size(); i++) {
 			enemies[i] = this.enemies.get(i);
 		}
+		return enemies;
+	}
+
+	public List<Enemy> getEnemies() {
 		return enemies;
 	}
 
