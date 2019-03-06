@@ -24,6 +24,10 @@ public class Maze extends MazeGenerator {
 		return (maze[x][y] & 1) == 0;
 	}
 
+	public Boolean hasWall(Integer x, Integer y) {
+		return (maze[x][y] & 8) == 0;
+	}
+
 	public void display(Character... characters) {
 
 		int x = coordinates.getX();

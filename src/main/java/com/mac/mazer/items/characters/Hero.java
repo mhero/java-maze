@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.mac.mazer.items.Coordinates;
 import com.mac.mazer.items.Maze;
-import com.mac.mazer.items.MazeGenerator;
 
 public class Hero extends Character {
 
@@ -98,7 +97,7 @@ public class Hero extends Character {
 	}
 
 	private Boolean moveIfValid(Integer x, Integer y, Maze maze) {
-		if (maze.outsideMazeLimits(x, y) || hasFloor(x, y, maze)) {
+		if (maze.outsideMazeLimits(x, y) || hasFloor(x, y, maze) || hasWall(x, y, maze)) {
 			System.out.println("Invalid move");
 			return false;
 		} else {
@@ -109,7 +108,13 @@ public class Hero extends Character {
 
 	private Boolean hasFloor(Integer x, Integer y, Maze maze) {
 		return (this.direction.equals(Direction.S) && maze.hasFloor(x, y))
-				|| (this.direction.equals(Direction.N) && maze.hasFloor(x - 1, y));
+				|| (this.direction.equals(Direction.N) && maze.hasFloor(x, y + 1));
+
+	}
+
+	private Boolean hasWall(Integer x, Integer y, Maze maze) {
+		return (this.direction.equals(Direction.E) && maze.hasWall(x, y))
+				|| (this.direction.equals(Direction.W) && maze.hasWall(x + 1, y));
 	}
 
 	private void updateDirection(Direction direction) {
