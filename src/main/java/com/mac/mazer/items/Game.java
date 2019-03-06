@@ -12,7 +12,6 @@ public class Game {
 	private Enemies enemies;
 	private Hero hero;
 
-
 	public Game() {
 		coordinates = new Coordinates(10, 10);
 		maze = new Maze(coordinates);
@@ -34,11 +33,12 @@ public class Game {
 		hero.turnRight();
 	}
 
+	public void rotate180() {
+		hero.rotate18();
+	}
+
 	public void moveForward() {
 		enemies = hero.moveForward(this.maze, this.enemies);
 	}
 
-	public void moveBackwards() {
-		enemies = hero.moveBackwards(this.maze, this.enemies);
-	}
 }

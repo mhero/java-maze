@@ -79,8 +79,8 @@ public class Menu {
 				game.display();
 				activateMenu(subMenuGame);
 			});
-			subMenuGame.putAction("step backwards", () -> {
-				game.moveBackwards();
+			subMenuGame.putAction("rotate 180ª", () -> {
+				game.rotate180();
 				game.display();
 				activateMenu(subMenuGame);
 			});

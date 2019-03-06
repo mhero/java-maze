@@ -10,15 +10,14 @@ public class Hero extends Character {
 	private Direction direction;
 
 	public enum Direction {
-		N("▲", 0, -1, 0, 1), S("▼", 0, 1, 0, -1), E("►", 1, 0, -1, 0), W("◄", -1, 0, 1, 0);
+		N("▲", 0, -1), S("▼", 0, 1), E("►", 1, 0), W("◄", -1, 0);
 
 		private final String logo;
 		private Direction left;
 		private Direction right;
+		private Direction opposite;
 		private Integer xForward;
 		private Integer yForward;
-		private Integer xBackwards;
-		private Integer yBackwards;
 
 		static {
 			N.left = W;
@@ -30,14 +29,17 @@ public class Hero extends Character {
 			S.right = W;
 			E.right = S;
 			W.right = N;
+
+			N.opposite = S;
+			S.opposite = N;
+			E.opposite = W;
+			W.opposite = E;
 		}
 
-		private Direction(String logo, Integer xForward, Integer yForward, Integer xBackwards, Integer yBackwards) {
+		private Direction(String logo, Integer xForward, Integer yForward) {
 			this.logo = logo;
 			this.xForward = xForward;
 			this.yForward = yForward;
-			this.xBackwards = xBackwards;
-			this.yBackwards = yBackwards;
 		}
 
 	}
@@ -71,19 +73,16 @@ public class Hero extends Character {
 		updateDirection(this.direction.right);
 	}
 
+	public void rotate18() {
+		updateDirection(this.direction.opposite);
+	}
+
 	public Enemies moveForward(Maze maze, Enemies enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
 		Integer y = heroCoordinates.getY() + this.direction.yForward;
 		return moveAndUpdateEnemies(x, y, maze, enemies);
 
-	}
-
-	public Enemies moveBackwards(Maze maze, Enemies enemies) {
-		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
-		Integer x = heroCoordinates.getX() + this.direction.xBackwards;
-		Integer y = heroCoordinates.getY() + this.direction.yBackwards;
-		return moveAndUpdateEnemies(x, y, maze, enemies);
 	}
 
 	private Enemies moveAndUpdateEnemies(Integer x, Integer y, Maze maze, Enemies enemies) {
