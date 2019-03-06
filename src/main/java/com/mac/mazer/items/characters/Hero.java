@@ -110,14 +110,14 @@ public class Hero extends Character {
 	}
 
 	private Boolean hasFloor(Integer x, Integer y, Maze maze) {
-		return (this.direction.equals(Direction.S) && maze.hasFloor(x, y))
-				|| (this.direction.equals(Direction.N) && maze.hasFloor(x, y + 1));
+		return (this.direction.equals(Direction.S) && maze.hasFloorAt(x, y))
+				|| (this.direction.equals(Direction.N) && maze.hasFloorAt(x, y + 1));
 
 	}
 
 	private Boolean hasWall(Integer x, Integer y, Maze maze) {
-		return (this.direction.equals(Direction.E) && maze.hasWall(x, y))
-				|| (this.direction.equals(Direction.W) && maze.hasWall(x + 1, y));
+		return (this.direction.equals(Direction.E) && maze.hasWallAt(x, y))
+				|| (this.direction.equals(Direction.W) && maze.hasWallAt(x + 1, y));
 	}
 
 	private void updateDirection(Direction direction) {

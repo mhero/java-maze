@@ -20,4 +20,13 @@ public abstract class Character {
 	public List<Coordinates> getPositions() {
 		return positions;
 	}
+
+	public static String getSpace(Coordinates coordinates, Character... characters) {
+		for (Character character : characters) {
+			if (character.isCharacterHere(coordinates)) {
+				return character.getLogo();
+			}
+		}
+		return " ";
+	}
 }

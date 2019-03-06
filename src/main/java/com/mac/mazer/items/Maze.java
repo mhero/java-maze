@@ -24,11 +24,11 @@ public class Maze extends MazeGenerator {
 		return x < 0 || y < 0 || x > getCoordinates().getX() - 1 || y > getCoordinates().getY() - 1;
 	}
 
-	public Boolean hasFloor(Integer x, Integer y) {
+	public Boolean hasFloorAt(Integer x, Integer y) {
 		return (maze[x][y] & 1) == 0;
 	}
 
-	public Boolean hasWall(Integer x, Integer y) {
+	public Boolean hasWallAt(Integer x, Integer y) {
 		return (maze[x][y] & 8) == 0;
 	}
 
@@ -48,7 +48,7 @@ public class Maze extends MazeGenerator {
 					event = (maze[j][i] & 8) == 0 ? "| END" : " END";
 					System.out.print(event);
 				} else {
-					System.out.print(event.replace("x", getSpace(new Coordinates(j, i), characters)));
+					System.out.print(event.replace("x", Character.getSpace(new Coordinates(j, i), characters)));
 				}
 			}
 			System.out.println("|");
@@ -59,12 +59,4 @@ public class Maze extends MazeGenerator {
 		System.out.println("+");
 	}
 
-	public String getSpace(Coordinates coordinates, Character... characters) {
-		for (Character character : characters) {
-			if (character.isCharacterHere(coordinates)) {
-				return character.getLogo();
-			}
-		}
-		return " ";
-	}
 }
