@@ -4,6 +4,10 @@ import com.mac.mazer.items.characters.Character;
 
 public class Maze extends MazeGenerator {
 
+	public Maze() {
+
+	}
+
 	public Maze(Coordinates coordinates) {
 		super(coordinates);
 	}

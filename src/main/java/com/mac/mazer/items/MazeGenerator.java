@@ -4,8 +4,12 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class MazeGenerator {
-	protected final Coordinates coordinates;
-	protected final int[][] maze;
+	protected Coordinates coordinates;
+	protected int[][] maze;
+
+	public MazeGenerator() {
+
+	}
 
 	public MazeGenerator(Coordinates coordinates) {
 		this.coordinates = coordinates;

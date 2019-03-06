@@ -12,6 +12,7 @@ public class Game {
 	private Enemies enemies;
 	private Hero hero;
 
+
 	public Game() {
 		coordinates = new Coordinates(10, 10);
 		maze = new Maze(coordinates);

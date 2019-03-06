@@ -10,6 +10,10 @@ public class Enemies {
 
 	private List<Enemy> enemies;
 
+	public Enemies() {
+
+	}
+
 	public Enemies(Integer amount, Coordinates coordinates, Integer maxPower) {
 		this.enemies = new ArrayList<>();
 

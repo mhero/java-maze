@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.mac.mazer.items.Game;
+import com.mac.util.Store;
 
 public class Menu {
 	private final String name;
@@ -57,10 +58,13 @@ public class Menu {
 				activateMenu(subMenuGame);
 			});
 			mainMenu.putAction("load game", () -> {
-				System.out.println("game saved");
-				activateMenu(mainMenu);
+				game = Store.load();
+				System.out.println("game loaded");
+				game.display();
+				activateMenu(subMenuGame);
 			});
 			mainMenu.putAction("save current game", () -> {
+				Store.save(game);
 				System.out.println("game saved");
 				activateMenu(mainMenu);
 			});
