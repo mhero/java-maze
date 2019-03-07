@@ -59,7 +59,7 @@ public class Hero extends Character {
 
 	@Override
 	public boolean isCharacterHere(Coordinates coordinates) {
-		return this.positions.get(this.positions.size() - 1).equals(coordinates);
+		return getCurrentCoordinates().equals(coordinates);
 	}
 
 	public Direction getDirection() {
@@ -80,21 +80,25 @@ public class Hero extends Character {
 
 	public void displayCurrentStats() {
 		System.out.println("hero power: " + this.power);
-		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+		Coordinates heroCoordinates = getCurrentCoordinates();
 		System.out.println("hero position: " + heroCoordinates.toString());
 	}
 
 	public EnemyBuilder moveForward(Maze maze, EnemyBuilder enemies) {
-		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+		Coordinates heroCoordinates = getCurrentCoordinates();
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
 		Integer y = heroCoordinates.getY() + this.direction.yForward;
 		return moveAndUpdateEnemies(x, y, maze, enemies);
 
 	}
 
+	public Coordinates getCurrentCoordinates() {
+		return this.positions.get(this.positions.size() - 1);
+	}
+
 	private EnemyBuilder moveAndUpdateEnemies(Integer x, Integer y, Maze maze, EnemyBuilder enemies) {
 		if (moveIfValid(x, y, maze)) {
-			Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+			Coordinates heroCoordinates = getCurrentCoordinates();
 			Battle battle = new Battle();
 			return battle.checkEnemiesColision(enemies, this, heroCoordinates);
 		} else {
