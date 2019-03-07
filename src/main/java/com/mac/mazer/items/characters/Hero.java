@@ -2,6 +2,7 @@ package com.mac.mazer.items.characters;
 
 import java.util.ArrayList;
 
+import com.mac.mazer.items.Battle;
 import com.mac.mazer.items.Coordinates;
 import com.mac.mazer.items.Maze;
 
@@ -83,7 +84,7 @@ public class Hero extends Character {
 		System.out.println("hero position: " + heroCoordinates.toString());
 	}
 
-	public Enemies moveForward(Maze maze, Enemies enemies) {
+	public EnemyBuilder moveForward(Maze maze, EnemyBuilder enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
 		Integer y = heroCoordinates.getY() + this.direction.yForward;
@@ -91,7 +92,7 @@ public class Hero extends Character {
 
 	}
 
-	private Enemies moveAndUpdateEnemies(Integer x, Integer y, Maze maze, Enemies enemies) {
+	private EnemyBuilder moveAndUpdateEnemies(Integer x, Integer y, Maze maze, EnemyBuilder enemies) {
 		if (moveIfValid(x, y, maze)) {
 			Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 			Battle battle = new Battle();

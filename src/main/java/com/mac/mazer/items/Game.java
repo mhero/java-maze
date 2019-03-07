@@ -1,7 +1,7 @@
 package com.mac.mazer.items;
 
 import com.mac.mazer.items.characters.Character;
-import com.mac.mazer.items.characters.Enemies;
+import com.mac.mazer.items.characters.EnemyBuilder;
 import com.mac.mazer.items.characters.Hero;
 import com.mac.util.Util;
 
@@ -9,13 +9,13 @@ public class Game {
 
 	private final Coordinates coordinates;
 	private Maze maze;
-	private Enemies enemies;
+	private EnemyBuilder enemies;
 	private Hero hero;
 
 	public Game() {
 		coordinates = new Coordinates(10, 10);
 		maze = new Maze(coordinates);
-		enemies = new Enemies(100, coordinates, 20);
+		enemies = new EnemyBuilder(100, coordinates, 20);
 		hero = new Hero(coordinates, 100);
 	}
 

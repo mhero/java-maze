@@ -1,4 +1,4 @@
-package com.mac.mazer.items.characters;
+package com.mac.mazer.items;
 
 import java.util.List;
 

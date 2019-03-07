@@ -1,15 +1,17 @@
-package com.mac.mazer.items.characters;
+package com.mac.mazer.items;
 
 import java.util.Random;
 import java.util.Scanner;
 
-import com.mac.mazer.items.Coordinates;
+import com.mac.mazer.items.characters.EnemyBuilder;
+import com.mac.mazer.items.characters.Enemy;
+import com.mac.mazer.items.characters.Hero;
 
 public class Battle {
 
 	private Scanner sc;
 
-	public Enemies checkEnemiesColision(Enemies enemies, Hero hero, Coordinates heroCoordinates) {
+	public EnemyBuilder checkEnemiesColision(EnemyBuilder enemies, Hero hero, Coordinates heroCoordinates) {
 		Enemy enemy = enemies.removeEnemyAt(heroCoordinates);
 		if (enemy != null) {
 			question(enemy, hero);
@@ -18,7 +20,7 @@ public class Battle {
 	}
 
 	private void question(Enemy enemy, Hero hero) {
-		Question question = (new Questions()).getQuestion();
+		Question question = (new Trivia()).getQuestion();
 
 		System.out.println(question.getQuestion());
 		for (int i = 0; i < question.getAnwers().size(); i++) {
@@ -32,7 +34,7 @@ public class Battle {
 	}
 
 	private Boolean answer(Integer userAnswer, Integer correctAnswer) {
-		String answer = (new Questions()).getAnswer();
+		String answer = (new Trivia()).getAnswer();
 		Random rand = new Random();
 		if (userAnswer.equals(correctAnswer)) {
 			return true;

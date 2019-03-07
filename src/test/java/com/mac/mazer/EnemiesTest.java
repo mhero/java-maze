@@ -5,11 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.mac.mazer.items.Coordinates;
-import com.mac.mazer.items.characters.Enemies;
+import com.mac.mazer.items.characters.EnemyBuilder;
 import com.mac.mazer.items.characters.Enemy;
 
 public class EnemiesTest {
-	private Enemies enemies;
+	private EnemyBuilder enemies;
 	private Integer amount;
 	private Integer power;
 	private Coordinates coordinates;
@@ -19,7 +19,7 @@ public class EnemiesTest {
 		amount = 5;
 		coordinates = new Coordinates(10, 10);
 		power = 100;
-		enemies = new Enemies(amount, coordinates, power);
+		enemies = new EnemyBuilder(amount, coordinates, power);
 	}
 
 	@Test
