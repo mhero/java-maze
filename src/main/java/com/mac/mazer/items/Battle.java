@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Enemy;
 import com.mac.mazer.items.characters.Hero;
+import com.mac.util.Util;
 
 public class Battle {
 
@@ -53,8 +54,6 @@ public class Battle {
 
 	private void stats(Enemy enemy, Boolean answer) {
 		System.out.println(String.format("you %s %d points", answer ? "lost" : "won", enemy.currentPower()));
-		System.out.println("Press any key to continue...");
-		sc = new Scanner(System.in);
-		sc.nextLine();
+		Util.pressAnyKey("Press any key to continue...");
 	}
 }

@@ -1,7 +1,5 @@
 package com.mac.mazer.items;
 
-import java.util.Scanner;
-
 import com.mac.mazer.items.characters.Character;
 import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Hero;
@@ -13,7 +11,6 @@ public class Game {
 	private Maze maze;
 	private EnemiesHandler enemies;
 	private Hero hero;
-	private Scanner sc;
 
 	private final Integer MAZE_SIZE = 5;
 	private final Integer ENEMY_AMOUNT = 8;
@@ -61,9 +58,6 @@ public class Game {
 		if (hero.currentPower() < 0) {
 			System.out.println("...but with a negative score...so...haha!");
 		}
-		sc = new Scanner(System.in);
-		System.out.println("Press any key to play again...");
-		sc = new Scanner(System.in);
-		sc.nextLine();
+		Util.pressAnyKey("Press any key to play again...");
 	}
 }
