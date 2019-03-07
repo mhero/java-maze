@@ -15,11 +15,16 @@ public class Game {
 	private Hero hero;
 	private Scanner sc;
 
+	private final Integer MAZE_SIZE = 6;
+	private final Integer ENEMY_AMOUNT = 4;
+	private final Integer ENEMY_POWER = 20;
+	private final Integer HERO_POWER = 100;
+
 	public Game() {
-		coordinates = new Coordinates(6, 6);
+		coordinates = new Coordinates(MAZE_SIZE, MAZE_SIZE);
 		maze = new Maze(coordinates);
-		enemies = new EnemyBuilder(4, coordinates, 20);
-		hero = new Hero(coordinates, 100);
+		enemies = new EnemyBuilder(ENEMY_AMOUNT, coordinates, ENEMY_POWER);
+		hero = new Hero(coordinates, HERO_POWER);
 	}
 
 	public void display() {
