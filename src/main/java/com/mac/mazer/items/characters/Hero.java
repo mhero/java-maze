@@ -77,6 +77,24 @@ public class Hero extends Character {
 		updateDirection(this.direction.opposite);
 	}
 
+	public Integer currentPower() {
+		return this.power;
+	}
+
+	public void displayCurrentStats() {
+		System.out.println("hero power: " + this.power);
+		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
+		System.out.println("hero position: " + heroCoordinates.toString());
+	}
+
+	public void updatePower(Enemy enemy, Boolean take) {
+		if (take) {
+			this.power -= enemy.power;
+		} else {
+			this.power += enemy.power;
+		}
+	}
+
 	public Enemies moveForward(Maze maze, Enemies enemies) {
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
@@ -88,19 +106,15 @@ public class Hero extends Character {
 	private Enemies moveAndUpdateEnemies(Integer x, Integer y, Maze maze, Enemies enemies) {
 		if (moveIfValid(x, y, maze)) {
 			Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
-			return checkEnemiesColision(enemies, heroCoordinates);
+			Battle battle = new Battle();
+			return battle.checkEnemiesColision(enemies, this, heroCoordinates);
 		} else {
 			return enemies;
 		}
 	}
 
-	private Enemies checkEnemiesColision(Enemies enemies, Coordinates heroCoordinates) {
-		enemies.removeEnemyAt(heroCoordinates);
-		return enemies;
-	}
-
 	private Boolean moveIfValid(Integer x, Integer y, Maze maze) {
-		if (maze.outsideMazeLimits(x, y) || hasFloor(x, y, maze) || hasWall(x, y, maze)) {
+		if (maze.outsideMazeLimits(x, y) || hitsFloor(x, y, maze) || hitsWall(x, y, maze)) {
 			System.out.println("Invalid move");
 			return false;
 		} else {
@@ -109,13 +123,13 @@ public class Hero extends Character {
 		}
 	}
 
-	private Boolean hasFloor(Integer x, Integer y, Maze maze) {
+	private Boolean hitsFloor(Integer x, Integer y, Maze maze) {
 		return (this.direction.equals(Direction.S) && maze.hasFloorAt(x, y))
 				|| (this.direction.equals(Direction.N) && maze.hasFloorAt(x, y + 1));
 
 	}
 
-	private Boolean hasWall(Integer x, Integer y, Maze maze) {
+	private Boolean hitsWall(Integer x, Integer y, Maze maze) {
 		return (this.direction.equals(Direction.E) && maze.hasWallAt(x, y))
 				|| (this.direction.equals(Direction.W) && maze.hasWallAt(x + 1, y));
 	}

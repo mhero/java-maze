@@ -15,13 +15,14 @@ public class Game {
 	public Game() {
 		coordinates = new Coordinates(10, 10);
 		maze = new Maze(coordinates);
-		enemies = new Enemies(4, coordinates, 20);
+		enemies = new Enemies(100, coordinates, 20);
 		hero = new Hero(coordinates, 100);
 	}
 
 	public void display() {
 		Character[] heroes = { hero };
 		Character[] characters = Util.concatenate(enemies.getEnemiesArray(), heroes);
+		hero.displayCurrentStats();
 		maze.display(characters);
 	}
 

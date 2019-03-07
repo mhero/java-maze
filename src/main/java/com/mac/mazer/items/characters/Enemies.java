@@ -45,14 +45,18 @@ public class Enemies {
 		return coordinates;
 	}
 
-	public void removeEnemyAt(Coordinates coordinates) {
+	public Enemy removeEnemyAt(Coordinates coordinates) {
+		Enemy removedEnemy = null;
 		List<Enemy> enemies = new ArrayList<>();
 		for (Enemy enemy : this.enemies) {
 			if (!enemy.isCharacterHere(coordinates)) {
 				enemies.add(enemy);
+			} else {
+				removedEnemy = enemy;
 			}
 		}
 		this.enemies = enemies;
+		return removedEnemy;
 	}
 
 }
