@@ -12,6 +12,8 @@ public class Battle {
 	private Scanner sc;
 
 	public EnemiesHandler checkEnemiesColision(EnemiesHandler enemies, Hero hero) {
+		if (enemies == null)
+			return enemies;
 		Enemy enemy = enemies.removeEnemyAt(hero.getCurrentCoordinates());
 		if (enemy != null) {
 			question(enemy, hero);
