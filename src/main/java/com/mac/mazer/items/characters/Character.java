@@ -29,4 +29,16 @@ public abstract class Character {
 		}
 		return " ";
 	}
+
+	public void updatePower(Enemy enemy, Boolean take) {
+		if (take) {
+			this.power -= enemy.power;
+		} else {
+			this.power += enemy.power;
+		}
+	}
+
+	public Integer currentPower() {
+		return this.power;
+	}
 }

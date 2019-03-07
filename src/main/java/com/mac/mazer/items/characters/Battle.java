@@ -26,7 +26,9 @@ public class Battle {
 
 		}
 		sc = new Scanner(System.in);
-		hero.updatePower(enemy, !answer(sc.nextInt(), question.getCorrectAnswer()));
+		Boolean answer = !answer(sc.nextInt(), question.getCorrectAnswer());
+		hero.updatePower(enemy, answer);
+		stats(enemy, answer);
 	}
 
 	private Boolean answer(Integer userAnswer, Integer correctAnswer) {
@@ -35,6 +37,7 @@ public class Battle {
 		if (userAnswer.equals(correctAnswer)) {
 			return true;
 		}
+		System.out.println();
 		if (rand.nextBoolean()) {
 			System.out.println(answer);
 			return true;
@@ -42,5 +45,12 @@ public class Battle {
 			System.out.println("NOPE!");
 			return false;
 		}
+	}
+
+	private void stats(Enemy enemy, Boolean answer) {
+		System.out.println(String.format("you %s %d points", answer ? "lost" : "won", enemy.currentPower()));
+		System.out.println("Press any key to continue...");
+		sc = new Scanner(System.in);
+		sc.nextLine();
 	}
 }

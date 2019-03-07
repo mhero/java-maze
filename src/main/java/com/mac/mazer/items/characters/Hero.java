@@ -77,22 +77,10 @@ public class Hero extends Character {
 		updateDirection(this.direction.opposite);
 	}
 
-	public Integer currentPower() {
-		return this.power;
-	}
-
 	public void displayCurrentStats() {
 		System.out.println("hero power: " + this.power);
 		Coordinates heroCoordinates = this.positions.get(this.positions.size() - 1);
 		System.out.println("hero position: " + heroCoordinates.toString());
-	}
-
-	public void updatePower(Enemy enemy, Boolean take) {
-		if (take) {
-			this.power -= enemy.power;
-		} else {
-			this.power += enemy.power;
-		}
 	}
 
 	public Enemies moveForward(Maze maze, Enemies enemies) {
