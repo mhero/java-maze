@@ -59,9 +59,14 @@ public class Menu {
 			});
 			mainMenu.putAction("load game", () -> {
 				game = Store.load();
-				System.out.println("game loaded");
-				game.display();
-				activateMenu(subMenuGame);
+				if (game != null) {
+					System.out.println("game loaded");
+					game.display();
+					activateMenu(subMenuGame);
+				} else {
+					System.out.println("failed to load game");
+					activateMenu(mainMenu);
+				}
 			});
 			mainMenu.putAction("save current game", () -> {
 				Store.save(game);

@@ -5,11 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.mac.mazer.items.Coordinates;
-import com.mac.mazer.items.characters.EnemyBuilder;
+import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Enemy;
 
 public class EnemiesTest {
-	private EnemyBuilder enemies;
+	private EnemiesHandler enemies;
 	private Integer amount;
 	private Integer power;
 	private Coordinates coordinates;
@@ -19,18 +19,18 @@ public class EnemiesTest {
 		amount = 5;
 		coordinates = new Coordinates(10, 10);
 		power = 100;
-		enemies = new EnemyBuilder(amount, coordinates, power);
+		enemies = new EnemiesHandler(amount, coordinates, power);
 	}
 
 	@Test
 	public void testSuccessCreate() {
-		Boolean success = (enemies.getEnemies().size() == amount);
+		Boolean success = (enemies.getEnemiesList().size() == amount);
 		Assert.assertTrue(success);
 	}
 
 	@Test
 	public void testSuccessPosition() {
-		for (Enemy enemy : enemies.getEnemies()) {
+		for (Enemy enemy : enemies.getEnemiesList()) {
 			Boolean success = enemy.isCharacterHere(enemy.getPositions().get(0));
 			Assert.assertTrue(success);
 		}

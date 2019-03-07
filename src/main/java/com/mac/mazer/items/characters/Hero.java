@@ -2,10 +2,12 @@ package com.mac.mazer.items.characters;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mac.mazer.items.Battle;
 import com.mac.mazer.items.Coordinates;
 import com.mac.mazer.items.Maze;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Hero extends Character {
 
 	private Direction direction;
@@ -49,7 +51,7 @@ public class Hero extends Character {
 
 	}
 
-	public Hero(Coordinates coordinates, Integer power) {
+	public Hero(Integer power) {
 		this.positions = new ArrayList<>();
 		this.positions.add(new Coordinates(0, 0));
 		this.power = power;
@@ -74,7 +76,7 @@ public class Hero extends Character {
 		updateDirection(this.direction.right);
 	}
 
-	public void rotate18() {
+	public void rotate180() {
 		updateDirection(this.direction.opposite);
 	}
 
@@ -84,7 +86,7 @@ public class Hero extends Character {
 		System.out.println("hero position: " + heroCoordinates.toString());
 	}
 
-	public EnemyBuilder moveForward(Maze maze, EnemyBuilder enemies) {
+	public EnemiesHandler moveForward(Maze maze, EnemiesHandler enemies) {
 		Coordinates heroCoordinates = getCurrentCoordinates();
 		Integer x = heroCoordinates.getX() + this.direction.xForward;
 		Integer y = heroCoordinates.getY() + this.direction.yForward;
@@ -96,11 +98,10 @@ public class Hero extends Character {
 		return this.positions.get(this.positions.size() - 1);
 	}
 
-	private EnemyBuilder moveAndUpdateEnemies(Integer x, Integer y, Maze maze, EnemyBuilder enemies) {
+	private EnemiesHandler moveAndUpdateEnemies(Integer x, Integer y, Maze maze, EnemiesHandler enemies) {
 		if (moveIfValid(x, y, maze)) {
-			Coordinates heroCoordinates = getCurrentCoordinates();
 			Battle battle = new Battle();
-			return battle.checkEnemiesColision(enemies, this, heroCoordinates);
+			return battle.checkEnemiesColision(enemies, this);
 		} else {
 			return enemies;
 		}

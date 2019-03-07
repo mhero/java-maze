@@ -3,15 +3,15 @@ package com.mac.mazer.items;
 import java.util.Scanner;
 
 import com.mac.mazer.items.characters.Character;
-import com.mac.mazer.items.characters.EnemyBuilder;
+import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Hero;
 import com.mac.util.Util;
 
 public class Game {
 
-	private final Coordinates coordinates;
+	private final Coordinates boardSize;
 	private Maze maze;
-	private EnemyBuilder enemies;
+	private EnemiesHandler enemies;
 	private Hero hero;
 	private Scanner sc;
 
@@ -21,17 +21,17 @@ public class Game {
 	private final Integer HERO_POWER = 100;
 
 	public Game() {
-		coordinates = new Coordinates(MAZE_SIZE, MAZE_SIZE);
-		maze = new Maze(coordinates);
-		enemies = new EnemyBuilder(ENEMY_AMOUNT, coordinates, ENEMY_POWER);
-		hero = new Hero(coordinates, HERO_POWER);
+		boardSize = new Coordinates(MAZE_SIZE, MAZE_SIZE);
+		maze = new Maze(boardSize);
+		enemies = new EnemiesHandler(ENEMY_AMOUNT, boardSize, ENEMY_POWER);
+		hero = new Hero(HERO_POWER);
 	}
 
 	public void display() {
 		Character[] heroes = { hero };
-		Character[] characters = Util.concatenate(enemies.getEnemiesArray(), heroes);
+		Character[] gameCharacters = Util.concatenate(enemies.getEnemies(), heroes);
 		hero.displayCurrentStats();
-		maze.display(characters);
+		maze.display(gameCharacters);
 	}
 
 	public void turnLeft() {
@@ -43,7 +43,7 @@ public class Game {
 	}
 
 	public void rotate180() {
-		hero.rotate18();
+		hero.rotate180();
 	}
 
 	public void moveForward() {
@@ -52,7 +52,7 @@ public class Game {
 
 	public Boolean gameFinished() {
 		return this.hero.getCurrentCoordinates()
-				.equals(new Coordinates(this.coordinates.getX() - 1, this.coordinates.getY() - 1));
+				.equals(new Coordinates(this.boardSize.getX() - 1, this.boardSize.getY() - 1));
 	}
 
 	public void finishGame() {

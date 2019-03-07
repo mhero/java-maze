@@ -12,12 +12,14 @@ import com.mac.mazer.items.Game;
 
 public class Store {
 
+	public final static String gameFileName = "game.json";
+
 	public static void save(Game game) {
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
 			mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-			mapper.writeValue(new File("game.json"), game);
+			mapper.writeValue(new File(gameFileName), game);
 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -35,7 +37,7 @@ public class Store {
 
 			mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 			// Convert JSON string from file to Object
-			Game game = mapper.readValue(new File("game.json"), Game.class);
+			Game game = mapper.readValue(new File(gameFileName), Game.class);
 			return game;
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();

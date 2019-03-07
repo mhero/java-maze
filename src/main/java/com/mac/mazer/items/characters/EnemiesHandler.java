@@ -6,15 +6,15 @@ import java.util.Random;
 
 import com.mac.mazer.items.Coordinates;
 
-public class EnemyBuilder {
+public class EnemiesHandler {
 
 	private List<Enemy> enemies;
 
-	public EnemyBuilder() {
+	public EnemiesHandler() {
 
 	}
 
-	public EnemyBuilder(Integer amount, Coordinates coordinates, Integer maxPower) {
+	public EnemiesHandler(Integer amount, Coordinates coordinates, Integer maxPower) {
 		this.enemies = new ArrayList<>();
 
 		for (int i = 0; i < amount; i++) {
@@ -25,7 +25,7 @@ public class EnemyBuilder {
 		}
 	}
 
-	public Character[] getEnemiesArray() {
+	public Character[] getEnemies() {
 		Character[] enemies = new Character[this.enemies.size()];
 		for (int i = 0; i < this.enemies.size(); i++) {
 			enemies[i] = this.enemies.get(i);
@@ -33,7 +33,7 @@ public class EnemyBuilder {
 		return enemies;
 	}
 
-	public List<Enemy> getEnemies() {
+	public List<Enemy> getEnemiesList() {
 		return enemies;
 	}
 

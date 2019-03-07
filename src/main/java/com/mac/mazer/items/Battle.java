@@ -3,7 +3,7 @@ package com.mac.mazer.items;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.mac.mazer.items.characters.EnemyBuilder;
+import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Enemy;
 import com.mac.mazer.items.characters.Hero;
 
@@ -11,8 +11,8 @@ public class Battle {
 
 	private Scanner sc;
 
-	public EnemyBuilder checkEnemiesColision(EnemyBuilder enemies, Hero hero, Coordinates heroCoordinates) {
-		Enemy enemy = enemies.removeEnemyAt(heroCoordinates);
+	public EnemiesHandler checkEnemiesColision(EnemiesHandler enemies, Hero hero) {
+		Enemy enemy = enemies.removeEnemyAt(hero.getCurrentCoordinates());
 		if (enemy != null) {
 			question(enemy, hero);
 		}
