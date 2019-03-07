@@ -14,14 +14,17 @@ public class EnemiesHandler {
 
 	}
 
-	public EnemiesHandler(Integer amount, Coordinates coordinates, Integer maxPower) {
+	public EnemiesHandler(Integer amount, Coordinates mazeCoordinates, Integer maxPower) {
 		this.enemies = new ArrayList<>();
 
-		for (int i = 0; i < amount; i++) {
-			int x = new Random().nextInt(coordinates.getX()) + 1;
-			int y = new Random().nextInt(coordinates.getY()) + 1;
+		for (int i = 0; i < amount;) {
+			int x = new Random().nextInt(mazeCoordinates.getX() - 2) + 1;
+			int y = new Random().nextInt(mazeCoordinates.getY() - 2) + 1;
 			int power = new Random().nextInt(maxPower);
-			this.enemies.add(new Enemy(new Coordinates(x, y), power));
+			if (!getCoordinates().contains(new Coordinates(x, y))) {
+				this.enemies.add(new Enemy(new Coordinates(x, y), power));
+				i++;
+			}
 		}
 	}
 
