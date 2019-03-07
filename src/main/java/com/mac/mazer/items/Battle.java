@@ -17,26 +17,25 @@ public class Battle {
 			return enemies;
 		Enemy enemy = enemies.removeEnemyAt(hero.getCurrentCoordinates());
 		if (enemy != null) {
-			question(enemy, hero);
+			askQuestion(enemy, hero);
 		}
 		return enemies;
 	}
 
-	private void question(Enemy enemy, Hero hero) {
+	private void askQuestion(Enemy enemy, Hero hero) {
 		Question question = (new Trivia()).getQuestion(null);
 
 		System.out.println(question.getQuestion());
-		for (int i = 0; i < question.getAnwers().size(); i++) {
-			System.out.println(String.format("%d. = %s", i + 1, question.getAnwers().get(i)));
-
+		for (int i = 0; i < question.getOptionAnswers().size(); i++) {
+			System.out.println(String.format("%d. = %s", i + 1, question.getOptionAnswers().get(i)));
 		}
 		sc = new Scanner(System.in);
-		Boolean answer = !answer(sc.nextInt(), question.getCorrectAnswer());
+		Boolean answer = !getAnswer(sc.nextInt(), question.getCorrectAnswer());
 		hero.updatePower(enemy, answer);
 		stats(enemy, answer);
 	}
 
-	private Boolean answer(Integer userAnswer, Integer correctAnswer) {
+	private Boolean getAnswer(Integer userAnswer, Integer correctAnswer) {
 		String answer = (new Trivia()).getAnswer();
 		Random rand = new Random();
 		if (userAnswer.equals(correctAnswer)) {

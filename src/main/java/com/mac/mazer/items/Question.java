@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Question {
 	private String question;
-	private List<String> anwers;
+	private List<String> optionAnswers;
 	private Integer correctAnswer;
 
-	public Question(String question, List<String> anwers, Integer correctAnswer) {
+	public Question(String question, List<String> optionAnswers, Integer correctAnswer) {
 		super();
 		this.question = question;
-		this.anwers = anwers;
+		this.optionAnswers = optionAnswers;
 		this.correctAnswer = correctAnswer;
 	}
 
@@ -18,8 +18,8 @@ public class Question {
 		return question;
 	}
 
-	public List<String> getAnwers() {
-		return anwers;
+	public List<String> getOptionAnswers() {
+		return optionAnswers;
 	}
 
 	public Integer getCorrectAnswer() {
