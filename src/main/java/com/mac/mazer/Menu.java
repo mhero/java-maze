@@ -76,6 +76,11 @@ public class Menu {
 
 			subMenuGame.putAction("step forward", () -> {
 				game.moveForward();
+				if (game.gameFinished()) {
+					game.finishGame();
+					game = new Game();
+
+				}
 				game.display();
 				activateMenu(subMenuGame);
 			});
