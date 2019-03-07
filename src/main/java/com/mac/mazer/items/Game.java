@@ -15,8 +15,8 @@ public class Game {
 	private Hero hero;
 	private Scanner sc;
 
-	private final Integer MAZE_SIZE = 6;
-	private final Integer ENEMY_AMOUNT = 4;
+	private final Integer MAZE_SIZE = 5;
+	private final Integer ENEMY_AMOUNT = 8;
 	private final Integer ENEMY_POWER = 20;
 	private final Integer HERO_POWER = 100;
 

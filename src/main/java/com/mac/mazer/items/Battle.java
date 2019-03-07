@@ -22,7 +22,7 @@ public class Battle {
 	}
 
 	private void question(Enemy enemy, Hero hero) {
-		Question question = (new Trivia()).getQuestion();
+		Question question = (new Trivia()).getQuestion(null);
 
 		System.out.println(question.getQuestion());
 		for (int i = 0; i < question.getAnwers().size(); i++) {
