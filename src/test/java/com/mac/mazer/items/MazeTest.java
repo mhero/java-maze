@@ -1,4 +1,4 @@
-package com.mac.mazer;
+package com.mac.mazer.items;
 
 import org.junit.Assert;
 import org.junit.Before;
