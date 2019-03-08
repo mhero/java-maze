@@ -32,7 +32,7 @@ Instructions:
 - To save, return to manin menu using 5, and save it using 3
 - Once you encounter an enemy "X" you'll be prompt with a question
 
-![alt text](https://i.imgur.com/L6IXaLi.png)
+![alt text](https://i.imgur.com/MfA7r4Q.png)
 
 
 
