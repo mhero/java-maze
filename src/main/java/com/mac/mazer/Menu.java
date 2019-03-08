@@ -30,6 +30,7 @@ public class Menu {
 		for (int i = 0; i < actionNames.size(); i++) {
 			sb.append(String.format(" %d: %s%n", i + 1, actionNames.get(i)));
 		}
+		sb.append("Enter number and press return :)");
 		return sb.toString();
 	}
 
