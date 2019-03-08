@@ -101,7 +101,7 @@ public class Hero extends Character {
 	private EnemiesHandler moveAndUpdateEnemies(Integer x, Integer y, Maze maze, EnemiesHandler enemies) {
 		if (moveIfValid(x, y, maze)) {
 			Battle battle = new Battle();
-			return battle.checkEnemiesColision(enemies, this);
+			return battle.checkEnemiesInteraction(enemies, this);
 		} else {
 			return enemies;
 		}

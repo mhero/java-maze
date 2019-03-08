@@ -12,30 +12,37 @@ public class Battle {
 
 	private Scanner sc;
 
-	public EnemiesHandler checkEnemiesColision(EnemiesHandler enemies, Hero hero) {
+	public EnemiesHandler checkEnemiesInteraction(EnemiesHandler enemies, Hero hero) {
 		if (enemies == null)
 			return enemies;
-		Enemy enemy = enemies.removeEnemyAt(hero.getCurrentCoordinates());
-		if (enemy != null) {
-			askQuestion(enemy, hero);
+
+		Enemy collidedEnemy = enemies.collided(hero.getCurrentCoordinates());
+		if (collidedEnemy != null) {
+			Question question = askQuestion(collidedEnemy, hero);
+			Boolean answer = getAnswer(question);
+			hero.updatePower(collidedEnemy, !answer);
+			stats(collidedEnemy, !answer);
 		}
 		return enemies;
 	}
 
-	private void askQuestion(Enemy enemy, Hero hero) {
+	private Question askQuestion(Enemy enemy, Hero hero) {
 		Question question = (new Trivia()).getQuestion(null);
 
 		System.out.println(question.getQuestion());
 		for (int i = 0; i < question.getOptionAnswers().size(); i++) {
 			System.out.println(String.format("%d. = %s", i + 1, question.getOptionAnswers().get(i)));
 		}
-		sc = new Scanner(System.in);
-		Boolean answer = !getAnswer(sc.nextInt(), question.getCorrectAnswer());
-		hero.updatePower(enemy, answer);
-		stats(enemy, answer);
+
+		return question;
 	}
 
-	private Boolean getAnswer(Integer userAnswer, Integer correctAnswer) {
+	private Boolean getAnswer(Question question) {
+		sc = new Scanner(System.in);
+		return isCorrectAnswer(sc.nextInt(), question.getCorrectAnswer());
+	}
+
+	private Boolean isCorrectAnswer(Integer userAnswer, Integer correctAnswer) {
 		String answer = (new Trivia()).getAnswer();
 		Random rand = new Random();
 		if (userAnswer.equals(correctAnswer)) {

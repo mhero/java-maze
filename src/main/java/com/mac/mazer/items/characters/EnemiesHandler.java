@@ -48,7 +48,7 @@ public class EnemiesHandler {
 		return coordinates;
 	}
 
-	public Enemy removeEnemyAt(Coordinates coordinates) {
+	public Enemy collided(Coordinates coordinates) {
 		Enemy removedEnemy = null;
 		List<Enemy> enemies = new ArrayList<>();
 		for (Enemy enemy : this.enemies) {
