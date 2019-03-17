@@ -3,10 +3,6 @@ package com.mac.mazer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Scanner;
-
-import com.mac.mazer.items.Game;
-import com.mac.util.Store;
 
 public class Menu {
 	private final String name;
@@ -42,88 +38,6 @@ public class Menu {
 			List<Runnable> actions = new ArrayList<>(actionsMap.values());
 			actions.get(effectiveActionNumber).run();
 		}
-	}
-
-	public static class App {
-		private Menu menu;
-		private Scanner scanner;
-		private Game game;
-
-		public App() {
-			Menu mainMenu = new Menu("Main", "");
-			Menu subMenuGame = new Menu("Game", "current game");
-
-			mainMenu.putAction("start new game", () -> {
-				game = new Game();
-				game.display();
-				activateMenu(subMenuGame);
-			});
-			mainMenu.putAction("load game", () -> {
-				game = Store.load();
-				if (game != null) {
-					System.out.println("game loaded");
-					game.display();
-					activateMenu(subMenuGame);
-				} else {
-					System.out.println("failed to load game");
-					activateMenu(mainMenu);
-				}
-			});
-			mainMenu.putAction("save current game", () -> {
-				Store.save(game);
-				System.out.println("game saved");
-				activateMenu(mainMenu);
-			});
-			mainMenu.putAction("quit", () -> {
-				System.out.println("game ended, return soon!");
-				System.exit(0);
-
-			});
-
-			subMenuGame.putAction("step forward", () -> {
-				game.moveForward();
-				if (game.gameFinished()) {
-					game.finishGame();
-					game = new Game();
-
-				}
-				game.display();
-				activateMenu(subMenuGame);
-			});
-			subMenuGame.putAction("rotate 180ª", () -> {
-				game.rotate180();
-				game.display();
-				activateMenu(subMenuGame);
-			});
-			subMenuGame.putAction("turn left", () -> {
-				game.turnLeft();
-				game.display();
-				activateMenu(subMenuGame);
-			});
-			subMenuGame.putAction("turn right", () -> {
-				game.turnRight();
-				game.display();
-				activateMenu(subMenuGame);
-			});
-			subMenuGame.putAction("main menu", () -> activateMenu(mainMenu));
-
-			activateMenu(mainMenu);
-		}
-
-		private void activateMenu(Menu newMenu) {
-			menu = newMenu;
-			System.out.println(newMenu.generateText());
-			scanner = new Scanner(System.in);
-			while (true) {
-				int actionNumber = scanner.nextInt();
-				menu.executeAction(actionNumber);
-			}
-		}
-
-	}
-
-	public static void main(String[] args) {
-		new App();
 	}
 
 }

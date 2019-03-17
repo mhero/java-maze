@@ -86,7 +86,7 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 						<manifest>
-							<mainClass>com.mac.mazer.Menu</mainClass>
+							<mainClass>com.mac.mazer.App</mainClass>
 						</manifest>
 					</archive>
 
