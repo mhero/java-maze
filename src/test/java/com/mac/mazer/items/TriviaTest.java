@@ -1,32 +1,33 @@
 package com.mac.mazer.items;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TriviaTest {
 	private Trivia trivia;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		trivia = new Trivia();
 	}
 
 	@Test
 	public void testSuccessQuestionWithoutTopics() {
-		Assert.assertTrue(trivia.getQuestion(null) != null);
+		assertTrue(trivia.getQuestion(null) != null);
 	}
 
 	@Test
 	public void testSuccessQuestionWithTopics() {
 		for (Trivia.Topic topic : Trivia.Topic.values()) {
-			Assert.assertTrue(trivia.getQuestion(topic) != null);
+			assertTrue(trivia.getQuestion(topic) != null);
 		}
 	}
 
 	@Test
 	public void testSuccessAnswer() {
-		Assert.assertTrue(trivia.getAnswer() != null);
+		assertTrue(trivia.getAnswer() != null);
 	}
 
 }

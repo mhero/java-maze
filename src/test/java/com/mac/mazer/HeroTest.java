@@ -1,8 +1,9 @@
 package com.mac.mazer;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.mac.mazer.items.Coordinates;
 import com.mac.mazer.items.Maze;
@@ -14,7 +15,7 @@ public class HeroTest {
 	private Maze mazeH;
 	private Maze mazeV;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		hero = new Hero(100);
 		mazeH = new Maze(new Coordinates(1, 2));
@@ -24,14 +25,14 @@ public class HeroTest {
 	@Test
 	public void testSuccessCurrent() {
 		Boolean success = hero.getCurrentCoordinates().equals(new Coordinates(0, 0));
-		Assert.assertTrue(success);
+		assertTrue(success);
 	}
 
 	@Test
 	public void testSuccessMoveHorizontal() {
 		hero.moveForward(mazeH, null);
 		Boolean success = hero.getCurrentCoordinates().equals(new Coordinates(0, 1));
-		Assert.assertTrue(success);
+		assertTrue(success);
 	}
 
 	@Test
@@ -39,7 +40,7 @@ public class HeroTest {
 		hero.turnLeft();
 		hero.moveForward(mazeV, null);
 		Boolean success = hero.getCurrentCoordinates().equals(new Coordinates(1, 0));
-		Assert.assertTrue(success);
+		assertTrue(success);
 	}
 
 }
