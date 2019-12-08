@@ -1,8 +1,9 @@
 package com.mac.mazer;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.mac.mazer.items.Coordinates;
 import com.mac.mazer.items.characters.EnemiesHandler;
@@ -14,7 +15,7 @@ public class EnemiesTest {
 	private Integer power;
 	private Coordinates coordinates;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		amount = 5;
 		coordinates = new Coordinates(10, 10);
@@ -25,14 +26,14 @@ public class EnemiesTest {
 	@Test
 	public void testSuccessCreate() {
 		Boolean success = (enemies.getEnemiesList().size() == amount);
-		Assert.assertTrue(success);
+		assertTrue(success);
 	}
 
 	@Test
 	public void testSuccessPosition() {
 		for (Enemy enemy : enemies.getEnemiesList()) {
 			Boolean success = enemy.isCharacterHere(enemy.getPositions().get(0));
-			Assert.assertTrue(success);
+			assertTrue(success);
 		}
 
 	}
@@ -41,7 +42,7 @@ public class EnemiesTest {
 	public void testSuccessBounds() {
 		for (Coordinates enemy : enemies.getCoordinates()) {
 			Boolean success = (enemy.getX() < coordinates.getX()) && (enemy.getY() < coordinates.getY());
-			Assert.assertTrue(success);
+			assertTrue(success);
 		}
 
 	}
