@@ -1,6 +1,4 @@
-java-maze
-
-Java maze game
+## Java maze game
 
 Docker:
 
