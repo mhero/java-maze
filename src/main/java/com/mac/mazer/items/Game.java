@@ -1,5 +1,7 @@
 package com.mac.mazer.items;
 
+import java.io.IOException;
+
 import com.mac.mazer.items.characters.Character;
 import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Hero;
@@ -27,6 +29,7 @@ public class Game {
 	public void display() {
 		Character[] heroes = { hero };
 		Character[] gameCharacters = Util.concatenate(enemies.getEnemies(), heroes);
+		cls();
 		hero.displayCurrentStats();
 		maze.display(gameCharacters);
 	}
@@ -59,5 +62,25 @@ public class Game {
 			System.out.println("...but with a negative score...so...haha!");
 		}
 		Util.pressAnyKey("Press any key to play again...");
+	}
+
+	private void cls() {
+		try {
+
+			String operatingSystem = System.getProperty("os.name");
+
+			if (operatingSystem.contains("Windows")) {
+				ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
+				Process startProcess = pb.inheritIO().start();
+				startProcess.waitFor();
+			} else {
+				ProcessBuilder pb = new ProcessBuilder("clear");
+				Process startProcess = pb.inheritIO().start();
+
+				startProcess.waitFor();
+			}
+		} catch (IOException | InterruptedException ex) {
+			System.out.print(ex);
+		}
 	}
 }
