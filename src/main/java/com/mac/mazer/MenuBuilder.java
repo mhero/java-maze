@@ -74,10 +74,15 @@ public class MenuBuilder {
 	private void activateMenu(Menu newMenu) {
 		menu = newMenu;
 		System.out.println(newMenu.generateText());
-		scanner = new Scanner(System.in);
 		while (true) {
-			int actionNumber = scanner.nextInt();
-			menu.executeAction(actionNumber);
+			try {
+				scanner = new Scanner(System.in);
+				int actionNumber = Integer.parseInt(scanner.nextLine());
+				menu.executeAction(actionNumber);
+			} catch (NumberFormatException ex) {
+				System.out.println("Invalid input. Please try again.");
+			}
+
 		}
 	}
 
