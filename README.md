@@ -1,26 +1,30 @@
 ## Java maze game
 
-Docker:
+#### Docker: ####
 
-	docker-compose up -d
-	docker attach java-maze_app_1
+```bash
+docker-compose up -d
+docker attach java-maze_app_1
+```
 	
 
-Local:
+#### Build: ####
+
+- Install maven
+- Run in terminal command:
 	
-	- install maven
-	- enter folder \java-maze
-	-  run in terminal command:
-		- mvn package
 
-Run
+```bash
+mvn package
+```
 
-	- after building enter folder \java-maze\target
-	- put input file inside this folder
-	- run in terminal command:
-	  - java -jar mazer-jar-with-dependencies.jar
+#### Run: ####
+	
+```bash
+java -jar target\mazer-jar-with-dependencies.jar
+```
 
-Includes:
+#### Includes: ####
 
 - Maze generator
 - Game menu
