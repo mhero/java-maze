@@ -19,9 +19,10 @@ public class Battle {
 		Enemy collidedEnemy = enemies.collided(hero.getCurrentCoordinates());
 		if (collidedEnemy != null) {
 			Question question = askQuestion();
-			Boolean answer = getAnswer(question);
-			hero.updatePower(collidedEnemy, !answer);
-			stats(collidedEnemy, !answer);
+			Integer answer = getAnswer();
+			Boolean correctAnswer = isCorrectAnswer(answer, question.getCorrectAnswer());
+			hero.updatePower(collidedEnemy, !correctAnswer);
+			stats(collidedEnemy, !correctAnswer);
 		}
 		return enemies;
 	}
@@ -37,17 +38,21 @@ public class Battle {
 		return question;
 	}
 
-	private Boolean getAnswer(Question question) {
+	private Integer getAnswer() {
 		sc = new Scanner(System.in);
-		return isCorrectAnswer(sc.nextInt(), question.getCorrectAnswer());
+		return sc.nextInt();
 	}
 
 	private Boolean isCorrectAnswer(Integer userAnswer, Integer correctAnswer) {
-		String answer = (new Trivia()).getAnswer();
-		Random rand = new Random();
-		if (userAnswer.equals(correctAnswer)) {
+		if (userAnswer.equals(correctAnswer))
 			return true;
-		}
+		else
+			return randomizeAnswerResult();
+	}
+
+	private Boolean randomizeAnswerResult() {
+		Random rand = new Random();
+		String answer = (new Trivia()).getAnswer();
 		System.out.println();
 		if (rand.nextBoolean()) {
 			System.out.println(answer);
