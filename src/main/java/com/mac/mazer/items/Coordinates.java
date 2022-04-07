@@ -26,7 +26,7 @@ public class Coordinates {
 	public boolean equals(Object object) {
 		boolean isEqual = false;
 
-		if (object != null && object instanceof Coordinates) {
+		if (object instanceof Coordinates) {
 			isEqual = (this.x == ((Coordinates) object).x) && (this.y == ((Coordinates) object).y);
 		}
 
