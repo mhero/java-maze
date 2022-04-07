@@ -18,7 +18,7 @@ public class Battle {
 
 		Enemy collidedEnemy = enemies.collided(hero.getCurrentCoordinates());
 		if (collidedEnemy != null) {
-			Question question = askQuestion(collidedEnemy, hero);
+			Question question = askQuestion();
 			Boolean answer = getAnswer(question);
 			hero.updatePower(collidedEnemy, !answer);
 			stats(collidedEnemy, !answer);
@@ -26,7 +26,7 @@ public class Battle {
 		return enemies;
 	}
 
-	private Question askQuestion(Enemy enemy, Hero hero) {
+	private Question askQuestion() {
 		Question question = (new Trivia()).getQuestion(null);
 
 		System.out.println(question.getQuestion());
