@@ -1,41 +1,18 @@
 package com.mac.mazer.items;
 
-public class Coordinates {
-	private Integer x;
-	private Integer y;
+public record Coordinates(int x, int y) {
+    public Coordinates() {
+        this(0, 0);
+    }
 
-	public Coordinates() {
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Coordinates(int x1, int y1))) return false;
+        return this.x == x1 && this.y == y1;
+    }
 
-	}
-
-	public Coordinates(Integer x, Integer y) {
-		super();
-		this.x = x;
-		this.y = y;
-	}
-
-	public Integer getX() {
-		return x;
-	}
-
-	public Integer getY() {
-		return y;
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		boolean isEqual = false;
-
-		if (object instanceof Coordinates) {
-			isEqual = (this.x == ((Coordinates) object).x) && (this.y == ((Coordinates) object).y);
-		}
-
-		return isEqual;
-	}
-
-	@Override
-	public String toString() {
-		return "x: " + this.x + " y: " + this.y;
-	}
-
+    @Override
+    public String toString() {
+        return "x: " + x + " y: " + y;
+    }
 }

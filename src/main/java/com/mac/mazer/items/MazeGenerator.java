@@ -2,62 +2,55 @@ package com.mac.mazer.items;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class MazeGenerator {
-	protected Coordinates coordinates;
-	protected int[][] maze;
+    protected Coordinates coordinates;
+    protected int[][] maze;
 
-	public MazeGenerator() {
+    public MazeGenerator() {
+    }
 
-	}
+    public MazeGenerator(Coordinates coordinates) {
+        this.coordinates = coordinates;
+        this.maze = new int[coordinates.x()][coordinates.y()];
+        generateMaze(0, 0);
+    }
 
-	public MazeGenerator(Coordinates coordinates) {
-		this.coordinates = coordinates;
-		this.maze = new int[this.coordinates.getX()][this.coordinates.getY()];
-		generateMaze(0, 0);
-	}
+    private void generateMaze(int cx, int cy) {
+        List<Dir> dirs = Arrays.asList(Dir.values());
+        Collections.shuffle(dirs);
+        int width = coordinates.x();
+        int height = coordinates.y();
 
-	private void generateMaze(int cx, int cy) {
-		DIR[] dirs = DIR.values();
-		Collections.shuffle(Arrays.asList(dirs));
-		Integer x = this.coordinates.getX();
-		Integer y = this.coordinates.getY();
+        for (Dir dir : dirs) {
+            int nx = cx + dir.dx;
+            int ny = cy + dir.dy;
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height && maze[nx][ny] == 0) {
+                maze[cx][cy] |= dir.bit;
+                maze[nx][ny] |= dir.opposite.bit;
+                generateMaze(nx, ny);
+            }
+        }
+    }
 
-		for (DIR dir : dirs) {
-			int nx = cx + dir.dx;
-			int ny = cy + dir.dy;
-			if (between(nx, x) && between(ny, y) && (this.maze[nx][ny] == 0)) {
-				this.maze[cx][cy] |= dir.bit;
-				this.maze[nx][ny] |= dir.opposite.bit;
-				generateMaze(nx, ny);
-			}
-		}
-	}
+    private enum Dir {
+        N(1, 0, -1), S(2, 0, 1), E(4, 1, 0), W(8, -1, 0);
 
-	private static boolean between(int v, int upper) {
-		return (v >= 0) && (v < upper);
-	}
+        static {
+            N.opposite = S; S.opposite = N;
+            E.opposite = W; W.opposite = E;
+        }
 
-	private enum DIR {
-		N(1, 0, -1), S(2, 0, 1), E(4, 1, 0), W(8, -1, 0);
-		private final int bit;
-		private final int dx;
-		private final int dy;
-		private DIR opposite;
+        final int bit;
+        final int dx;
+        final int dy;
+        Dir opposite;
 
-		// use the static initializer to resolve forward references
-		static {
-			N.opposite = S;
-			S.opposite = N;
-			E.opposite = W;
-			W.opposite = E;
-		}
-
-		private DIR(int bit, int dx, int dy) {
-			this.bit = bit;
-			this.dx = dx;
-			this.dy = dy;
-		}
-	};
-
+        Dir(int bit, int dx, int dy) {
+            this.bit = bit;
+            this.dx = dx;
+            this.dy = dy;
+        }
+    }
 }

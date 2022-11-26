@@ -4,59 +4,59 @@ import com.mac.mazer.items.characters.Character;
 
 public class Maze extends MazeGenerator {
 
-	public Maze() {
+    public Maze() {
+    }
 
-	}
+    public Maze(Coordinates coordinates) {
+        super(coordinates);
+    }
 
-	public Maze(Coordinates coordinates) {
-		super(coordinates);
-	}
+    public int[][] getMaze() {
+        return maze;
+    }
 
-	public int[][] getMaze() {
-		return maze;
-	}
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
 
-	public Coordinates getCoordinates() {
-		return this.coordinates;
-	}
+    public boolean outsideMazeLimits(int x, int y) {
+        return x < 0 || y < 0 || x >= coordinates.x() || y >= coordinates.y();
+    }
 
-	public Boolean outsideMazeLimits(Integer x, Integer y) {
-		return x < 0 || y < 0 || x > getCoordinates().getX() - 1 || y > getCoordinates().getY() - 1;
-	}
+    public boolean hasFloorAt(int x, int y) {
+        return (maze[x][y] & 1) == 0;
+    }
 
-	public Boolean hasFloorAt(Integer x, Integer y) {
-		return (maze[x][y] & 1) == 0;
-	}
+    public boolean hasWallAt(int x, int y) {
+        return (maze[x][y] & 8) == 0;
+    }
 
-	public Boolean hasWallAt(Integer x, Integer y) {
-		return (maze[x][y] & 8) == 0;
-	}
+    public void display(Character... characters) {
+        int width = coordinates.x();
+        int height = coordinates.y();
 
-	public void display(Character... characters) {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                System.out.print((maze[col][row] & 1) == 0 ? "+---" : "+   ");
+            }
+            System.out.println("+");
 
-		int x = coordinates.getX();
-		int y = coordinates.getY();
+            for (int col = 0; col < width; col++) {
+                boolean isExit = col == width - 1 && row == height - 1;
+                String wall = (maze[col][row] & 8) == 0 ? "|" : " ";
+                if (isExit) {
+                    System.out.print(wall + " END");
+                } else {
+                    String content = Character.getSpace(new Coordinates(col, row), characters);
+                    System.out.print(wall + " " + content + " ");
+                }
+            }
+            System.out.println("|");
+        }
 
-		for (int i = 0; i < y; i++) {
-			for (int j = 0; j < x; j++) {
-				System.out.print((maze[j][i] & 1) == 0 ? "+---" : "+   ");
-			}
-			System.out.println("+");
-			for (int j = 0; j < x; j++) {
-				String event = (maze[j][i] & 8) == 0 ? "| x " : "  x ";
-				if (j == x - 1 && i == y - 1) {
-					event = (maze[j][i] & 8) == 0 ? "| END" : " END";
-					System.out.print(event);
-				} else {
-					System.out.print(event.replace("x", Character.getSpace(new Coordinates(j, i), characters)));
-				}
-			}
-			System.out.println("|");
-		}
-		for (int j = 0; j < x; j++) {
-			System.out.print("+---");
-		}
-		System.out.println("+");
-	}
-
+        for (int col = 0; col < width; col++) {
+            System.out.print("+---");
+        }
+        System.out.println("+");
+    }
 }

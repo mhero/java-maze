@@ -1,46 +1,41 @@
 package com.mac.mazer;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import com.mac.mazer.items.Coordinates;
 import com.mac.mazer.items.Maze;
 import com.mac.mazer.items.characters.Hero;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HeroTest {
 
-	private Hero hero;
-	private Maze mazeH;
-	private Maze mazeV;
+    private Hero hero;
+    private Maze mazeVertical;
+    private Maze mazeHorizontal;
 
-	@BeforeEach
-	public void init() {
-		hero = new Hero(100);
-		mazeH = new Maze(new Coordinates(1, 2));
-		mazeV = new Maze(new Coordinates(2, 1));
-	}
+    @BeforeEach
+    public void init() {
+        hero = new Hero(100);
+        mazeVertical = new Maze(new Coordinates(1, 2));
+        mazeHorizontal = new Maze(new Coordinates(2, 1));
+    }
 
-	@Test
-	public void testSuccessCurrent() {
-		Boolean success = hero.getCurrentCoordinates().equals(new Coordinates(0, 0));
-		assertTrue(success);
-	}
+    @Test
+    public void testStartsAtOrigin() {
+        assertEquals(new Coordinates(0, 0), hero.getCurrentCoordinates());
+    }
 
-	@Test
-	public void testSuccessMoveHorizontal() {
-		hero.moveForward(mazeH, null);
-		Boolean success = hero.getCurrentCoordinates().equals(new Coordinates(0, 1));
-		assertTrue(success);
-	}
+    @Test
+    public void testMoveForwardVertically() {
+        hero.moveForward(mazeVertical, null);
+        assertEquals(new Coordinates(0, 1), hero.getCurrentCoordinates());
+    }
 
-	@Test
-	public void testSuccessMoveVertical() {
-		hero.turnLeft();
-		hero.moveForward(mazeV, null);
-		Boolean success = hero.getCurrentCoordinates().equals(new Coordinates(1, 0));
-		assertTrue(success);
-	}
-
+    @Test
+    public void testMoveForwardHorizontally() {
+        hero.turnLeft();
+        hero.moveForward(mazeHorizontal, null);
+        assertEquals(new Coordinates(1, 0), hero.getCurrentCoordinates());
+    }
 }
