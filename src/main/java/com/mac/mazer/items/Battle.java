@@ -1,70 +1,68 @@
 package com.mac.mazer.items;
 
-import java.util.Random;
-import java.util.Scanner;
-
-import com.mac.mazer.items.characters.EnemiesHandler;
 import com.mac.mazer.items.characters.Enemy;
 import com.mac.mazer.items.characters.Hero;
-import com.mac.util.Util;
+import com.mac.mazer.items.trivia.Question;
+import com.mac.mazer.items.trivia.TriviaPort;
+import com.mac.util.IOPort;
 
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Handles trivia battle logic.
+ * Knows nothing about enemies list management — that belongs to Game.
+ */
 public class Battle {
 
-	private Scanner sc;
+    private final TriviaPort trivia;
+    private final IOPort io;
+    private final Random random;
 
-	public EnemiesHandler checkEnemiesInteraction(EnemiesHandler enemies, Hero hero) {
-		if (enemies == null)
-			return enemies;
+    public Battle(TriviaPort trivia, IOPort io) {
+        this(trivia, io, new Random());
+    }
 
-		Enemy collidedEnemy = enemies.collided(hero.getCurrentCoordinates());
-		if (collidedEnemy != null) {
-			Question question = askQuestion();
-			Integer answer = getAnswer();
-			Boolean correctAnswer = isCorrectAnswer(answer, question.getCorrectAnswer());
-			hero.updatePower(collidedEnemy, !correctAnswer);
-			stats(collidedEnemy, !correctAnswer);
-		}
-		return enemies;
-	}
+    /**
+     * Package-private constructor for tests — allows injecting deterministic Random.
+     */
+    Battle(TriviaPort trivia, IOPort io, Random random) {
+        this.trivia = trivia;
+        this.io = io;
+        this.random = random;
+    }
 
-	private Question askQuestion() {
-		Question question = (new Trivia()).getQuestion(null);
+    /**
+     * Runs one battle encounter. Returns the hero's updated power.
+     */
+    public int fight(Hero hero, Enemy enemy) {
+        Question question = askQuestion();
+        int answer = io.readInt();
+        boolean won = resolveAnswer(answer, question.correctAnswer());
+        int newPower = hero.powerAfterEncounter(enemy, !won);
+        printBattleResult(enemy, !won);
+        return newPower;
+    }
 
-		System.out.println(question.getQuestion());
-		for (int i = 0; i < question.getOptionAnswers().size(); i++) {
-			System.out.println(String.format("%d. = %s", i + 1, question.getOptionAnswers().get(i)));
-		}
+    private Question askQuestion() {
+        Question question = trivia.getQuestion(null);
+        io.println(question.question());
+        List<String> options = question.optionAnswers();
+        for (int i = 0; i < options.size(); i++) {
+            io.printf("%d. = %s%n", i + 1, options.get(i));
+        }
+        return question;
+    }
 
-		return question;
-	}
+    private boolean resolveAnswer(int userAnswer, int correctAnswer) {
+        if (userAnswer == correctAnswer) return true;
+        boolean lucky = random.nextBoolean();
+        io.println(lucky ? trivia.getAnswer() : "NOPE!");
+        return lucky;
+    }
 
-	private Integer getAnswer() {
-		sc = new Scanner(System.in);
-		return sc.nextInt();
-	}
-
-	private Boolean isCorrectAnswer(Integer userAnswer, Integer correctAnswer) {
-		if (userAnswer.equals(correctAnswer))
-			return true;
-		else
-			return randomizeAnswerResult();
-	}
-
-	private Boolean randomizeAnswerResult() {
-		Random rand = new Random();
-		String answer = (new Trivia()).getAnswer();
-		System.out.println();
-		if (rand.nextBoolean()) {
-			System.out.println(answer);
-			return true;
-		} else {
-			System.out.println("NOPE!");
-			return false;
-		}
-	}
-
-	private void stats(Enemy enemy, Boolean answer) {
-		System.out.println(String.format("you %s %d points", answer ? "lost" : "won", enemy.currentPower()));
-		Util.pressAnyKey("Press any key to continue...");
-	}
+    private void printBattleResult(Enemy enemy, boolean lost) {
+        io.printf("you %s %d points%n", lost ? "lost" : "won", enemy.currentPower());
+        io.pressAnyKey("Press any key to continue...");
+    }
 }

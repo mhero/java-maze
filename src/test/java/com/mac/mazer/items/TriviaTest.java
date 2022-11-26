@@ -1,33 +1,45 @@
 package com.mac.mazer.items;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
+import com.mac.mazer.items.trivia.Question;
+import com.mac.mazer.items.trivia.Trivia;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TriviaTest {
-	private Trivia trivia;
 
-	@BeforeEach
-	public void init() {
-		trivia = new Trivia();
-	}
+    private final Trivia trivia = new Trivia();
 
-	@Test
-	public void testSuccessQuestionWithoutTopics() {
-		assertTrue(trivia.getQuestion(null) != null);
-	}
+    @Test
+    public void testQuestionWithoutTopic() {
+        assertNotNull(trivia.getQuestion(null));
+    }
 
-	@Test
-	public void testSuccessQuestionWithTopics() {
-		for (Trivia.Topic topic : Trivia.Topic.values()) {
-			assertTrue(trivia.getQuestion(topic) != null);
-		}
-	}
+    @Test
+    public void testQuestionForEachTopic() {
+        for (Trivia.Topic topic : Trivia.Topic.values()) {
+            assertNotNull(trivia.getQuestion(topic));
+        }
+    }
 
-	@Test
-	public void testSuccessAnswer() {
-		assertTrue(trivia.getAnswer() != null);
-	}
+    @Test
+    public void testQuestionHasOptionsAndCorrectAnswer() {
+        Question q = trivia.getQuestion(null);
+        assertFalse(q.optionAnswers().isEmpty());
+        assertTrue(q.correctAnswer() >= 1);
+        assertTrue(q.correctAnswer() <= q.optionAnswers().size());
+    }
 
+    @Test
+    public void testAnswer() {
+        assertNotNull(trivia.getAnswer());
+        assertFalse(trivia.getAnswer().isBlank());
+    }
+
+    @Test
+    public void testRandomTopicNeverNull() {
+        for (int i = 0; i < 20; i++) {
+            assertNotNull(Trivia.Topic.random());
+        }
+    }
 }

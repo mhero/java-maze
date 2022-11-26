@@ -1,27 +1,42 @@
 package com.mac.mazer.items;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CoordinatesTest {
 
-	private Coordinates coordinates;
+    private final Coordinates coordinates = new Coordinates(4, 5);
 
-	@BeforeEach
-	public void init() {
-		coordinates = new Coordinates(4, 5);
-	}
+    @Test
+    public void testGetters() {
+        assertEquals(4, coordinates.x());
+        assertEquals(5, coordinates.y());
+    }
 
-	@Test
-	public void testSuccessCreate() {
-		assertTrue(coordinates.getX().equals(4));
-		assertTrue(coordinates.getY().equals(5));
-	}
+    @Test
+    public void testEquality() {
+        assertEquals(coordinates, new Coordinates(4, 5));
+    }
 
-	@Test
-	public void testSuccessEquals() {
-		assertTrue(coordinates.equals(new Coordinates(4, 5)));
-	}
+    @Test
+    public void testInequality() {
+        assertNotEquals(coordinates, new Coordinates(4, 6));
+    }
+
+    @Test
+    public void testHashCodeConsistency() {
+        assertEquals(coordinates.hashCode(), new Coordinates(4, 5).hashCode());
+    }
+
+    @Test
+    public void testDefaultConstructor() {
+        assertEquals(new Coordinates(0, 0), new Coordinates());
+    }
+
+    @Test
+    public void testToString() {
+        assertTrue(coordinates.toString().contains("4"));
+        assertTrue(coordinates.toString().contains("5"));
+    }
 }

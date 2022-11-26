@@ -1,65 +1,70 @@
 package com.mac.mazer.items.characters;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mac.mazer.items.Coordinates;
 
+import java.util.*;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnemiesHandler {
 
-	private List<Enemy> enemies;
+    private List<Enemy> enemies;
 
-	public EnemiesHandler() {
+    public EnemiesHandler() {
+    }
 
-	}
+    public EnemiesHandler(int amount, Coordinates mazeSize, int maxPower) {
+        this.enemies = new ArrayList<>(amount);
+        Random random = new Random();
+        Set<Coordinates> occupied = new HashSet<>();
 
-	public EnemiesHandler(Integer amount, Coordinates mazeCoordinates, Integer maxPower) {
-		this.enemies = new ArrayList<>();
+        while (enemies.size() < amount) {
+            int x = random.nextInt(mazeSize.x() - 2) + 1;
+            int y = random.nextInt(mazeSize.y() - 2) + 1;
+            Coordinates pos = new Coordinates(x, y);
+            if (occupied.add(pos)) {
+                enemies.add(new Enemy(pos, random.nextInt(maxPower)));
+            }
+        }
+    }
 
-		for (int i = 0; i < amount;) {
-			int x = new Random().nextInt(mazeCoordinates.getX() - 2) + 1;
-			int y = new Random().nextInt(mazeCoordinates.getY() - 2) + 1;
-			int power = new Random().nextInt(maxPower);
-			if (!getCoordinates().contains(new Coordinates(x, y))) {
-				this.enemies.add(new Enemy(new Coordinates(x, y), power));
-				i++;
-			}
-		}
-	}
+    /**
+     * Returns a new EnemiesHandler with the collided enemy removed, or this if no collision.
+     */
+    public CollisionResult collide(Coordinates coordinates) {
+        Enemy hit = null;
+        List<Enemy> remaining = new ArrayList<>();
+        for (Enemy enemy : enemies) {
+            if (enemy.isCharacterHere(coordinates)) {
+                hit = enemy;
+            } else {
+                remaining.add(enemy);
+            }
+        }
+        EnemiesHandler updated = new EnemiesHandler();
+        updated.enemies = List.copyOf(remaining);
+        return new CollisionResult(hit, updated);
+    }
 
-	public Character[] getEnemies() {
-		Character[] enemies = new Character[this.enemies.size()];
-		for (int i = 0; i < this.enemies.size(); i++) {
-			enemies[i] = this.enemies.get(i);
-		}
-		return enemies;
-	}
+    public Character[] getEnemies() {
+        return enemies.toArray(new Character[0]);
+    }
 
-	public List<Enemy> getEnemiesList() {
-		return enemies;
-	}
+    public List<Enemy> getEnemiesList() {
+        return List.copyOf(enemies);
+    }
 
-	public List<Coordinates> getCoordinates() {
-		List<Coordinates> coordinates = new ArrayList<>();
-		for (Enemy enemy : enemies) {
-			coordinates.addAll(enemy.getPositions());
-		}
-		return coordinates;
-	}
+    public List<Coordinates> getCoordinates() {
+        List<Coordinates> coords = new ArrayList<>();
+        for (Enemy enemy : enemies) {
+            coords.addAll(enemy.getPositions());
+        }
+        return coords;
+    }
 
-	public Enemy collided(Coordinates coordinates) {
-		Enemy removedEnemy = null;
-		List<Enemy> enemies = new ArrayList<>();
-		for (Enemy enemy : this.enemies) {
-			if (!enemy.isCharacterHere(coordinates)) {
-				enemies.add(enemy);
-			} else {
-				removedEnemy = enemy;
-			}
-		}
-		this.enemies = enemies;
-		return removedEnemy;
-	}
-
+    public record CollisionResult(Enemy enemy, EnemiesHandler remaining) {
+        public boolean hasCollision() {
+            return enemy != null;
+        }
+    }
 }

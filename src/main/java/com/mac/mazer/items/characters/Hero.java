@@ -1,137 +1,122 @@
 package com.mac.mazer.items.characters;
 
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mac.mazer.items.Battle;
 import com.mac.mazer.items.Coordinates;
-import com.mac.mazer.items.Maze;
+import com.mac.mazer.items.maze.Maze;
+
+import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Hero extends Character {
 
-	private Direction direction;
+    private Direction direction;
 
-	public enum Direction {
-		N("▲", 0, -1), S("▼", 0, 1), E("►", 1, 0), W("◄", -1, 0);
+    public Hero() {
+    }
 
-		private final String logo;
-		private Direction left;
-		private Direction right;
-		private Direction opposite;
-		private Integer xForward;
-		private Integer yForward;
+    public Hero(int power) {
+        this.positions = new ArrayList<>();
+        this.positions.add(new Coordinates(0, 0));
+        this.power = power;
+        setDirection(Direction.S);
+    }
 
-		static {
-			N.left = W;
-			S.left = E;
-			E.left = N;
-			W.left = S;
+    @Override
+    public boolean isCharacterHere(Coordinates coordinates) {
+        return getCurrentCoordinates().equals(coordinates);
+    }
 
-			N.right = E;
-			S.right = W;
-			E.right = S;
-			W.right = N;
+    public Direction getDirection() {
+        return direction;
+    }
 
-			N.opposite = S;
-			S.opposite = N;
-			E.opposite = W;
-			W.opposite = E;
-		}
+    private void setDirection(Direction d) {
+        this.direction = d;
+        this.logo = d.logo;
+    }
 
-		private Direction(String logo, Integer xForward, Integer yForward) {
-			this.logo = logo;
-			this.xForward = xForward;
-			this.yForward = yForward;
-		}
+    public void turnLeft() {
+        setDirection(direction.left);
+    }
 
-	}
+    public void turnRight() {
+        setDirection(direction.right);
+    }
 
-	public Hero() {
+    public void rotate180() {
+        setDirection(direction.opposite);
+    }
 
-	}
+    public Coordinates getCurrentCoordinates() {
+        return positions.get(positions.size() - 1);
+    }
 
-	public Hero(Integer power) {
-		this.positions = new ArrayList<>();
-		this.positions.add(new Coordinates(0, 0));
-		this.power = power;
-		updateDirection(Direction.S);
+    /**
+     * Attempts to move forward. Returns a MoveResult describing outcome.
+     * Does NOT touch EnemiesHandler or IOPort — that is the caller's concern.
+     */
+    public MoveResult tryMoveForward(Maze maze) {
+        Coordinates pos = getCurrentCoordinates();
+        int x = pos.x() + direction.dx;
+        int y = pos.y() + direction.dy;
+        if (!isValidMove(x, y, maze)) {
+            return MoveResult.blocked();
+        }
+        positions.add(new Coordinates(x, y));
+        return MoveResult.moved(getCurrentCoordinates());
+    }
 
-	}
+    public void applyPowerDelta(int newPower) {
+        this.power = newPower;
+    }
 
-	@Override
-	public boolean isCharacterHere(Coordinates coordinates) {
-		return getCurrentCoordinates().equals(coordinates);
-	}
+    private boolean isValidMove(int x, int y, Maze maze) {
+        if (maze.outsideMazeLimits(x, y)) return false;
+        if (direction == Direction.S && maze.hasFloorAt(x, y)) return false;
+        if (direction == Direction.N && maze.hasFloorAt(x, y + 1)) return false;
+        if (direction == Direction.E && maze.hasWallAt(x, y)) return false;
+        return direction != Direction.W || !maze.hasWallAt(x + 1, y);
+    }
 
-	public Direction getDirection() {
-		return direction;
-	}
+    public enum Direction {
+        N("▲", 0, -1), S("▼", 0, 1), E("►", 1, 0), W("◄", -1, 0);
 
-	public void turnLeft() {
-		updateDirection(this.direction.left);
-	}
+        static {
+            N.left = W;
+            N.right = E;
+            N.opposite = S;
+            S.left = E;
+            S.right = W;
+            S.opposite = N;
+            E.left = N;
+            E.right = S;
+            E.opposite = W;
+            W.left = S;
+            W.right = N;
+            W.opposite = E;
+        }
 
-	public void turnRight() {
-		updateDirection(this.direction.right);
-	}
+        final String logo;
+        final int dx;
+        final int dy;
+        Direction left;
+        Direction right;
+        Direction opposite;
 
-	public void rotate180() {
-		updateDirection(this.direction.opposite);
-	}
+        Direction(String logo, int dx, int dy) {
+            this.logo = logo;
+            this.dx = dx;
+            this.dy = dy;
+        }
+    }
 
-	public void displayCurrentStats() {
-		System.out.println("hero power: " + this.power);
-		Coordinates heroCoordinates = getCurrentCoordinates();
-		System.out.println("hero position: " + heroCoordinates.toString());
-	}
+    public record MoveResult(boolean moved, Coordinates newPosition) {
+        public static MoveResult moved(Coordinates pos) {
+            return new MoveResult(true, pos);
+        }
 
-	public EnemiesHandler moveForward(Maze maze, EnemiesHandler enemies) {
-		Coordinates heroCoordinates = getCurrentCoordinates();
-		Integer x = heroCoordinates.getX() + this.direction.xForward;
-		Integer y = heroCoordinates.getY() + this.direction.yForward;
-		return moveAndUpdateEnemies(x, y, maze, enemies);
-
-	}
-
-	public Coordinates getCurrentCoordinates() {
-		return this.positions.get(this.positions.size() - 1);
-	}
-
-	private EnemiesHandler moveAndUpdateEnemies(Integer x, Integer y, Maze maze, EnemiesHandler enemies) {
-		if (moveIfValid(x, y, maze)) {
-			Battle battle = new Battle();
-			return battle.checkEnemiesInteraction(enemies, this);
-		} else {
-			return enemies;
-		}
-	}
-
-	private Boolean moveIfValid(Integer x, Integer y, Maze maze) {
-		if (maze.outsideMazeLimits(x, y) || hitsFloor(x, y, maze) || hitsWall(x, y, maze)) {
-			System.out.println("Invalid move");
-			return false;
-		} else {
-			this.positions.add(new Coordinates(x, y));
-			return true;
-		}
-	}
-
-	private Boolean hitsFloor(Integer x, Integer y, Maze maze) {
-		return (this.direction.equals(Direction.S) && maze.hasFloorAt(x, y))
-				|| (this.direction.equals(Direction.N) && maze.hasFloorAt(x, y + 1));
-
-	}
-
-	private Boolean hitsWall(Integer x, Integer y, Maze maze) {
-		return (this.direction.equals(Direction.E) && maze.hasWallAt(x, y))
-				|| (this.direction.equals(Direction.W) && maze.hasWallAt(x + 1, y));
-	}
-
-	private void updateDirection(Direction direction) {
-		this.direction = direction;
-		this.logo = this.direction.logo;
-
-	}
-
+        public static MoveResult blocked() {
+            return new MoveResult(false, null);
+        }
+    }
 }

@@ -1,89 +1,111 @@
 package com.mac.mazer;
 
-import java.util.Scanner;
-
 import com.mac.mazer.items.Game;
-import com.mac.util.Store;
+import com.mac.mazer.items.GameState;
+import com.mac.util.GameStore;
+import com.mac.util.IOPort;
 
+import java.util.Optional;
+
+/**
+ * Drives the terminal game loop.
+ * Uses an iterative loop instead of recursive activateMenu calls —
+ * no stack overflow risk on long sessions.
+ */
 public class MenuBuilder {
-	private Menu menu;
-	private Scanner scanner;
-	private Game game;
 
-	public MenuBuilder() {
-		Menu mainMenu = new Menu("Main", "");
-		Menu subMenuGame = new Menu("Game", "current game");
+    private final IOPort io;
+    private final Game game;
+    private final GameStore store;
 
-		mainMenu.putAction("start new game", () -> {
-			game = new Game();
-			game.display();
-			activateMenu(subMenuGame);
-		});
-		mainMenu.putAction("load game", () -> {
-			game = Store.load();
-			if (game != null) {
-				System.out.println("game loaded");
-				game.display();
-				activateMenu(subMenuGame);
-			} else {
-				System.out.println("failed to load game");
-				activateMenu(mainMenu);
-			}
-		});
-		mainMenu.putAction("save current game", () -> {
-			Store.save(game);
-			System.out.println("game saved");
-			activateMenu(mainMenu);
-		});
-		mainMenu.putAction("quit", () -> {
-			System.out.println("game ended, return soon!");
-			System.exit(0);
+    private GameState state;
+    private Menu activeMenu;
+    private boolean running = true;
 
-		});
+    public MenuBuilder(IOPort io, Game game, GameStore store) {
+        this.io = io;
+        this.game = game;
+        this.store = store;
 
-		subMenuGame.putAction("step forward", () -> {
-			game.moveForward();
-			if (game.gameFinished()) {
-				game.finishGame();
-				game = new Game();
+        Menu mainMenu = buildMainMenu();
+        activeMenu = mainMenu;
+        runLoop();
+    }
 
-			}
-			game.display();
-			activateMenu(subMenuGame);
-		});
-		subMenuGame.putAction("rotate 180ª", () -> {
-			game.rotate180();
-			game.display();
-			activateMenu(subMenuGame);
-		});
-		subMenuGame.putAction("turn left", () -> {
-			game.turnLeft();
-			game.display();
-			activateMenu(subMenuGame);
-		});
-		subMenuGame.putAction("turn right", () -> {
-			game.turnRight();
-			game.display();
-			activateMenu(subMenuGame);
-		});
-		subMenuGame.putAction("main menu", () -> activateMenu(mainMenu));
+    private Menu buildMainMenu() {
+        Menu mainMenu = new Menu("Main", "");
+        Menu[] gameMenuRef = new Menu[1];
 
-		activateMenu(mainMenu);
-	}
+        mainMenu.putAction("start new game", () -> {
+            state = GameState.newGame();
+            game.display(state);
+            activeMenu = gameMenuRef[0];
+        });
+        mainMenu.putAction("load game", () -> {
+            Optional<GameState> loaded = store.load();
+            if (loaded.isPresent()) {
+                state = loaded.get();
+                io.println("game loaded");
+                game.display(state);
+                activeMenu = gameMenuRef[0];
+            } else {
+                io.println("failed to load game");
+            }
+        });
+        mainMenu.putAction("save current game", () -> {
+            if (state != null) {
+                store.save(state);
+                io.println("game saved");
+            } else {
+                io.println("no game to save");
+            }
+        });
+        mainMenu.putAction("quit", () -> {
+            io.println("game ended, return soon!");
+            running = false;
+        });
 
-	private void activateMenu(Menu newMenu) {
-		menu = newMenu;
-		System.out.println(newMenu.generateText());
-		while (true) {
-			try {
-				scanner = new Scanner(System.in);
-				int actionNumber = Integer.parseInt(scanner.nextLine());
-				menu.executeAction(actionNumber);
-			} catch (NumberFormatException ex) {
-				System.out.println("Invalid input. Please try again.");
-			}
+        gameMenuRef[0] = buildGameMenu(mainMenu);
+        return mainMenu;
+    }
 
-		}
-	}
+    private Menu buildGameMenu(Menu mainMenu) {
+        Menu menu = new Menu("Game", "current game");
 
+        menu.putAction("step forward", () -> {
+            state = game.moveForward(state);
+            if (game.isFinished(state)) {
+                game.showFinishScreen(state);
+                state = GameState.newGame();
+            }
+            game.display(state);
+        });
+        menu.putAction("rotate 180º", () -> {
+            state = game.rotate180(state);
+            game.display(state);
+        });
+        menu.putAction("turn left", () -> {
+            state = game.turnLeft(state);
+            game.display(state);
+        });
+        menu.putAction("turn right", () -> {
+            state = game.turnRight(state);
+            game.display(state);
+        });
+        menu.putAction("main menu", () -> activeMenu = mainMenu);
+
+        return menu;
+    }
+
+    private void runLoop() {
+        while (running) {
+            io.println(activeMenu.generateText());
+            try {
+                int choice = io.readInt();
+                activeMenu.executeAction(choice);
+            } catch (Exception e) {
+                io.println("Invalid input. Please try again.");
+            }
+        }
+    }
 }

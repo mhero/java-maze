@@ -1,26 +1,17 @@
 package com.mac.util;
 
 import java.lang.reflect.Array;
-import java.util.Scanner;
 
-public class Util {
-	private static Scanner sc;
+public final class Util {
 
-	public static <T> T[] concatenate(T[] a, T[] b) {
-		int aLen = a.length;
-		int bLen = b.length;
+    private Util() {
+    }
 
-		@SuppressWarnings("unchecked")
-		T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen + bLen);
-		System.arraycopy(a, 0, c, 0, aLen);
-		System.arraycopy(b, 0, c, aLen, bLen);
-
-		return c;
-	}
-
-	public static void pressAnyKey(String message) {
-		sc = new Scanner(System.in);
-		System.out.println(message);
-		sc.nextLine();
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> T[] concatenate(T[] a, T[] b) {
+        T[] result = (T[]) Array.newInstance(a.getClass().getComponentType(), a.length + b.length);
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+    }
 }
