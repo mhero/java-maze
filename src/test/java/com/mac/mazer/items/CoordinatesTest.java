@@ -1,27 +1,27 @@
 package com.mac.mazer.items;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class CoordinatesTest {
 
-	private Coordinates coordinates;
+    private Coordinates coordinates;
 
-	@BeforeEach
-	public void init() {
-		coordinates = new Coordinates(4, 5);
-	}
+    @BeforeEach
+    public void init() {
+        coordinates = new Coordinates(4, 5);
+    }
 
-	@Test
-	public void testSuccessCreate() {
-		assertTrue(coordinates.getX().equals(4));
-		assertTrue(coordinates.getY().equals(5));
-	}
+    @Test
+    public void testSuccessCreate() {
+        assertEquals(4, (int) coordinates.getX());
+        assertEquals(5, (int) coordinates.getY());
+    }
 
-	@Test
-	public void testSuccessEquals() {
-		assertTrue(coordinates.equals(new Coordinates(4, 5)));
-	}
+    @Test
+    public void testSuccessEquals() {
+        assertEquals(coordinates, new Coordinates(4, 5));
+    }
 }
