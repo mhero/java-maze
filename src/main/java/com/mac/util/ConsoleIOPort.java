@@ -27,7 +27,13 @@ public class ConsoleIOPort implements IOPort {
 
     @Override
     public int readInt() {
-        return scanner.nextInt();
+        while (!scanner.hasNextInt()) {
+            scanner.nextLine(); // flush bad token
+            System.out.println("Please enter a number.");
+        }
+        int value = scanner.nextInt();
+        scanner.nextLine(); // consume trailing newline
+        return value;
     }
 
     @Override

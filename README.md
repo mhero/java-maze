@@ -6,20 +6,18 @@
 docker-compose up -d
 docker attach java-maze_app_1
 ```
-	
 
 #### Build: ####
 
 - Install maven
 - Run in terminal command:
-	
 
 ```bash
 mvn package
 ```
 
 #### Run: ####
-	
+
 ```bash
 java -jar target\mazer-jar-with-dependencies.jar
 ```

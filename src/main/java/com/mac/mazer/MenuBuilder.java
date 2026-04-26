@@ -100,12 +100,8 @@ public class MenuBuilder {
     private void runLoop() {
         while (running) {
             io.println(activeMenu.generateText());
-            try {
-                int choice = io.readInt();
-                activeMenu.executeAction(choice);
-            } catch (Exception e) {
-                io.println("Invalid input. Please try again.");
-            }
+            int choice = io.readInt();
+            activeMenu.executeAction(choice);
         }
     }
 }
